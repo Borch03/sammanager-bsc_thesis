@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-Description: Autonomic semantic-based management for distribute
+ d        applications
+Bundle-SymbolicName: pl.edu.agh.samm.base.dblistener
+Bundle-Version: 0.2.0.SNAPSHOT
+Bundle-Name: SAMM - Base - DB Listener
+Built-By: Dominik
+Bundle-ManifestVersion: 2
+Bnd-LastModified: 1434559200904
+Import-Package: javax.sql,org.apache.commons.dbcp;version="[1.2.2.osgi
+ ,1.2.2.osgi]",org.hsqldb;version="[1.8.0.10,1.8.0.10]",org.slf4j;vers
+ ion="1.6",org.springframework.beans.factory.config;version="2.5",org.
+ springframework.dao;version="2.5",org.springframework.jdbc.core;versi
+ on="2.5",org.springframework.jdbc.core.namedparam;version="2.5",org.s
+ pringframework.jdbc.core.simple;version="2.5",org.springframework.tra
+ nsaction.annotation;version="2.5",pl.edu.agh.samm.api.action,pl.edu.a
+ gh.samm.api.db,pl.edu.agh.samm.api.metrics
+Created-By: Apache Maven Bundle Plugin
+Tool: Bnd-0.0.357
+Build-Jdk: 1.8.0_31
+

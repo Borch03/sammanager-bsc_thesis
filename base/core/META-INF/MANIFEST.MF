@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-Description: Autonomic semantic-based management for distribute
+ d        applications
+Bundle-SymbolicName: pl.edu.agh.samm.base.core
+Bundle-Version: 0.2.0.SNAPSHOT
+Bundle-Name: SAMM - Base - Core
+Built-By: Dominik
+Bundle-ManifestVersion: 2
+Bnd-LastModified: 1434559199726
+Import-Package: com.espertech.esper.client,net.sf.cglib.reflect;versio
+ n="2.2",org.apache.commons.math.stat.correlation;version="2.1",org.sl
+ f4j;version="1.6",org.springframework.beans.factory.config;version="2
+ .5",pl.edu.agh.samm.api.action,pl.edu.agh.samm.api.core,pl.edu.agh.sa
+ mm.api.db,pl.edu.agh.samm.api.impl,pl.edu.agh.samm.api.knowledge,pl.e
+ du.agh.samm.api.metrics,pl.edu.agh.samm.api.sla,pl.edu.agh.samm.api.t
+ adapter
+Created-By: Apache Maven Bundle Plugin
+Tool: Bnd-0.0.357
+Build-Jdk: 1.8.0_31
+

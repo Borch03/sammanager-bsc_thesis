@@ -1,0 +1,64 @@
+<configuration>
+    <resourceSet>
+        <resource uri="/TutorialApp">
+            <type>http://www.icsr.agh.edu.pl/samm_1.owl#TutorialApplication</type>
+            <property>
+                <key>JMXURL</key>
+                <value>service:jmx:rmi:///jndi/rmi://localhost:33333/jmxrmi</value>
+            </property>
+        </resource>
+    </resourceSet>
+    <ruleSet>
+        <rule name="ruleForAddingASlave">
+            <resourceUri>%TutorialApp%</resourceUri>
+            <condition>cast(value,double) > 0</condition>
+            <metricUri>http://www.icsr.agh.edu.pl/samm_1.owl#ExpressionsQueueLengthMetric</metricUri>
+            <actionToExecute>
+                <actionURI>http://www.icsr.agh.edu.pl/samm_1.owl#ExecuteMBeanAction</actionURI>
+                <parameterValues>
+                    <entry>
+                        <string>MBEAN_JMXURL</string>
+                        <string>service:jmx:rmi:///jndi/rmi://localhost:33333/jmxrmi</string>
+                    </entry>
+                    <entry>
+                        <string>MBEAN_URI</string>
+                        <string>pl.edu.agh.samm.testapp:name=WorkloadGenerator</string>
+                    </entry>
+                    <entry>
+                        <string>MBEAN_METHOD_NAME</string>
+                        <string>addSlave</string>
+                    </entry>
+                </parameterValues>
+            </actionToExecute>
+        </rule>
+        <rule name="ruleForRemovingASlave">
+            <customStatement>select metric, value from IMetricEvent(metric.resourceURI like '%TutorialApp%' and metric.metricURI like '%ExpressionsQueueLengthMetric%') where cast(value, double) = 0 and (select cast(value,double) from IMetricEvent(metric.resourceURI like '%TutorialApp%' and metric.metricURI like '%SlavesCountMetric%').win:length(1)) > 1</customStatement>
+            <actionToExecute>
+                <actionURI>http://www.icsr.agh.edu.pl/samm_1.owl#ExecuteMBeanAction</actionURI>
+                <parameterValues>
+                    <entry>
+                        <string>MBEAN_JMXURL</string>
+                        <string>service:jmx:rmi:///jndi/rmi://localhost:33333/jmxrmi</string>
+                    </entry>
+                    <entry>
+                        <string>MBEAN_URI</string>
+                        <string>pl.edu.agh.samm.testapp:name=WorkloadGenerator</string>
+                    </entry>
+                    <entry>
+                        <string>MBEAN_METHOD_NAME</string>
+                        <string>removeSlave</string>
+                    </entry>
+                </parameterValues>
+            </actionToExecute>
+        </rule>
+    </ruleSet>
+    <metricSet>
+        <metric resourceURI="/TutorialApp"
+                metricURI="http://www.icsr.agh.edu.pl/samm_1.owl#ExpressionsQueueLengthMetric"
+                metricPollTimeInterval="20000"/>
+        <metric resourceURI="/TutorialApp"
+                metricURI="http://www.icsr.agh.edu.pl/samm_1.owl#SlavesCountMetric"
+                metricPollTimeInterval="20000"/>
+    </metricSet>
+</configuration>
+

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+This file is part of SAMM.
+
+SAMM is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+SAMM is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with SAMM.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- regular spring configuration file defining the beans for this bundle. 
+		We've kept the osgi definitions in a separate configuration file so that 
+		this file can easily be used for integration testing outside of an OSGi environment -->
+
+	<!-- Core Management Bean -->
+	<bean id="coreManagementBean" class="pl.edu.agh.samm.core.CoreManagementImpl"
+		init-method="init" destroy-method="destroy">
+		<property name="resourceInstancesManager">
+			<ref bean="resourceInstancesManager" />
+		</property>
+		<property name="runningMetricsManager">
+			<ref bean="runningMetricsManager" />
+		</property>
+		<property name="resourceDiscoveryAgent">
+			<ref bean="resourceDiscoveryAgent" />
+		</property>
+		<property name="actionExecutor" ref="ignoringActionExecutor" />
+		<property name="ruleProcessor" ref="esperRuleEngine" />
+	</bean>
+
+	<!-- Rule engine and dependencies -->
+	<bean id="epServiceConfig" class="pl.edu.agh.samm.core.EsperRuleProcessor"
+		factory-method="getDefaultConfiguration"></bean>
+
+	<bean id="defaultEpService"
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod">
+			<value>com.espertech.esper.client.EPServiceProviderManager.getDefaultProvider</value>
+		</property>
+		<property name="arguments">
+			<ref bean="epServiceConfig" />
+		</property>
+
+	</bean>
+
+	<bean id="esperRuleEngine" class="pl.edu.agh.samm.core.EsperRuleProcessor">
+		<property name="actionExecutor" ref="ignoringActionExecutor" />
+		<property name="epService" ref="defaultEpService" />
+	</bean>
+
+	<!-- Listener for changes of transport adapters set -->
+	<bean id="transportAdapterListener" class="pl.edu.agh.samm.core.TransportAdapterListener">
+		<property name="registryListener" ref="coreManagementBean"></property>
+		<property name="measurementListener" ref="mmDBListener" />
+	</bean>
+
+	<!-- Running Metrics Manager -->
+	<bean id="runningMetricsManager" class="pl.edu.agh.samm.metrics.RunningMetricsManagerImpl">
+		<property name="resourceInstancesManager">
+			<ref bean="resourceInstancesManager" />
+		</property>
+		<property name="knowledgeService">
+			<ref bean="knowledgeService" />
+		</property>
+	</bean>
+
+	<!-- Instances manager -->
+	<bean id="resourceInstancesManager" class="pl.edu.agh.samm.core.ResourceInstancesManagerImpl">
+		<property name="resourceDiscoveryAgent">
+			<ref bean="resourceDiscoveryAgent" />
+		</property>
+	</bean>
+
+	<!-- Discovery resources agent -->
+	<bean id="resourceDiscoveryAgent" class="pl.edu.agh.samm.core.ResourceDiscoveryAgent">
+		<property name="transportAdapters">
+			<ref bean="transportAdaptersSet" />
+		</property>
+		<property name="knowledgeService">
+			<ref bean="knowledgeService" />
+		</property>
+	</bean>
+
+	<!-- DB Listeners -->
+	<bean id="mmDBListener" class="pl.edu.agh.samm.core.MeasurementMetricDBListener"
+		init-method="init">
+		<property name="coreManagement" ref="coreManagementBean" />
+		<property name="storageService" ref="storageService" />
+	</bean>
+
+	<bean id="actionExecutionDBListener" class="pl.edu.agh.samm.core.ActionExecutionDBListener"
+		init-method="init">
+		<property name="actionExecutor" ref="ignoringActionExecutor" />
+		<property name="storageService" ref="storageService" />
+	</bean>
+
+	<!-- ActionExecutors -->
+	<bean id="parallelActionExecutor" class="pl.edu.agh.samm.core.ParallelActionExecutorImpl">
+		<property name="transportAdapters" ref="transportAdaptersSet" />
+	</bean>
+
+	<bean id="ignoringActionExecutor" class="pl.edu.agh.samm.core.IgnoringActionExecutorDecorator">
+		<property name="transportAdapters" ref="transportAdaptersSet" />
+	</bean>
+</beans>

@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-Description: Autonomic semantic-based management for distribute
+ d        applications
+Bundle-SymbolicName: pl.edu.agh.samm.base.ra.knowledgerajmx
+Bundle-Version: 0.2.0.SNAPSHOT
+Bundle-Name: SAMM - Base - Remote Access - Knowledge JMX
+Built-By: Dominik
+Bundle-ManifestVersion: 2
+Bnd-LastModified: 1434559201473
+Import-Package: com.hp.hpl.jena.ontology,javax.management,org.slf4j;ve
+ rsion="1.6",pl.edu.agh.samm.api.core,pl.edu.agh.samm.api.knowledge
+Created-By: Apache Maven Bundle Plugin
+Tool: Bnd-0.0.357
+Build-Jdk: 1.8.0_31
+

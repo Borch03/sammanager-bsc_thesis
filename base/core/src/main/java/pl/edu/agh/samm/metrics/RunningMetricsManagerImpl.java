@@ -32,13 +32,13 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import pl.edu.agh.samm.api.core.IKnowledgeProvider;
 import pl.edu.agh.samm.api.core.IResourceInstancesManager;
 import pl.edu.agh.samm.api.core.Resource;
 import pl.edu.agh.samm.api.knowledge.IKnowledge;
 import pl.edu.agh.samm.api.metrics.IMetric;
 import pl.edu.agh.samm.api.metrics.IMetricListener;
 import pl.edu.agh.samm.api.metrics.IMetricsManagerListener;
-import pl.edu.agh.samm.api.metrics.Metric;
 import pl.edu.agh.samm.api.metrics.MetricNotRunningException;
 
 /**
@@ -49,38 +49,31 @@ import pl.edu.agh.samm.api.metrics.MetricNotRunningException;
  * @author Pawel Koperek <pkoperek@gmail.com>
  * @author Mateusz Kupisz <mkupisz@gmail.com>
  */
-public class RunningMetricsManagerImpl implements IMetricsManager,
-		IMetricProblemObserver {
+public class RunningMetricsManagerImpl implements IMetricsManager, IMetricProblemObserver {
 
-	public static final int NUMBER_OF_RETRIES_THRESHOLD = 3;
+	private final Logger logger = LoggerFactory.getLogger(RunningMetricsManagerImpl.class);
 
-	private final Logger logger = LoggerFactory
-			.getLogger(RunningMetricsManagerImpl.class);
-
-	private List<IMetric> patternMetrics = new CopyOnWriteArrayList<IMetric>();
-	private IKnowledge knowledgeService = null;
+	private IKnowledgeProvider knowledgeProvider = null;
 	private IResourceInstancesManager resourceInstancesManager = null;
 	private List<IMetricsManagerListener> metricManagerListeners = new CopyOnWriteArrayList<IMetricsManagerListener>();
 	private Map<IMetric, MetricTask> scheduledTasks = new HashMap<IMetric, MetricTask>();
-	private ScheduledExecutorService scheduledExecutorService = new ScheduledThreadPoolExecutor(
-			10);
+	private ScheduledExecutorService scheduledExecutorService = new ScheduledThreadPoolExecutor(10);
 
 	private Map<IMetric, ScheduledFuture<?>> scheduledFutures = new HashMap<IMetric, ScheduledFuture<?>>();
 
-	public void setKnowledgeService(IKnowledge knowledgeService) {
-		this.knowledgeService = knowledgeService;
+	public IKnowledgeProvider getKnowledgeProvider() {
+		return knowledgeProvider;
 	}
 
-	public IKnowledge getKnowledgeService() {
-		return knowledgeService;
+	public void setKnowledgeProvider(IKnowledgeProvider knowledgeProvider) {
+		this.knowledgeProvider = knowledgeProvider;
 	}
 
 	public IResourceInstancesManager getResourceInstancesManager() {
 		return resourceInstancesManager;
 	}
 
-	public void setResourceInstancesManager(
-			IResourceInstancesManager resourceInstancesManager) {
+	public void setResourceInstancesManager(IResourceInstancesManager resourceInstancesManager) {
 		this.resourceInstancesManager = resourceInstancesManager;
 	}
 
@@ -95,11 +88,9 @@ public class RunningMetricsManagerImpl implements IMetricsManager,
 			metricManagerListeners.add(listener);
 			if (scheduledTasks.size() > 0) {
 				try {
-					listener.notifyNewMetricsStarted(new HashSet<IMetric>(
-							scheduledTasks.keySet()));
+					listener.notifyNewMetricsStarted(new HashSet<IMetric>(scheduledTasks.keySet()));
 				} catch (Exception e) {
-					logger.error(
-							"Metric Manager Listener thrown an exception!", e);
+					logger.error("Metric Manager Listener thrown an exception!", e);
 				}
 			}
 		}
@@ -211,42 +202,17 @@ public class RunningMetricsManagerImpl implements IMetricsManager,
 	@Override
 	public void startMetricAndAddRunningMetricListener(IMetric metric,
 			Collection<IMetricListener> listeners) {
-		if (metric.isPatternMetric()) {
-			logger.info("Got a pattern metric! " + metric);
-			patternMetrics.add(metric);
-			String regex = metric.getResourceURI();
-			List<Resource> resources = resourceInstancesManager
-					.getResourcesForRegex(regex);
-
-			for (Resource resource : resources) {
-				IMetric singleResourceMetric = new Metric(
-						metric.getMetricURI(), resource.getUri(),
-						metric.getMetricPollTimeInterval());
-				startSingleMetricAndAddRunningMetricListener(
-						singleResourceMetric, listeners);
-			}
-		} else {
-			startSingleMetricAndAddRunningMetricListener(metric, listeners);
-		}
-	}
-
-	private void startSingleMetricAndAddRunningMetricListener(IMetric metric,
-			Collection<IMetricListener> listeners) {
-		logger.info("Starting single metric: " + metric);
+		logger.info("Starting metric: " + metric);
 		MetricTask task = null;
 		if (!scheduledTasks.containsKey(metric)) {
-			List<String> usedCapabilities = knowledgeService
-					.getUsedCapabilities(metric.getMetricURI());
-			Resource resource = resourceInstancesManager
-					.getResourceForURI(metric.getResourceURI());
-			if (knowledgeService.isCustomMetric(metric.getMetricURI())) {
-				String customClassName = knowledgeService
-						.getClassNameForCustomMetric(metric.getMetricURI());
-				task = new CustomMetricTask(metric, usedCapabilities, resource,
-						customClassName);
+			IKnowledge knowledge = knowledgeProvider.getDefaultKnowledgeSource();
+			List<String> usedCapabilities = knowledge.getUsedCapabilities(metric.getMetricURI());
+			Resource resource = resourceInstancesManager.getResourceForURI(metric.getResourceURI());
+			if (knowledge.isCustomMetric(metric.getMetricURI())) {
+				String customClassName = knowledge.getClassNameForCustomMetric(metric.getMetricURI());
+				task = new CustomMetricTask(metric, usedCapabilities, resource, customClassName);
 			} else {
-				task = new SingleCapabilityMetricTask(metric, usedCapabilities,
-						resource);
+				task = new SingleCapabilityMetricTask(metric, usedCapabilities, resource);
 			}
 			task.init();
 
@@ -262,10 +228,8 @@ public class RunningMetricsManagerImpl implements IMetricsManager,
 
 		if (!scheduledTasks.containsKey(metric)) {
 			task.setProblemObserver(this);
-			ScheduledFuture<?> future = scheduledExecutorService
-					.scheduleAtFixedRate(task, 0L,
-							metric.getMetricPollTimeInterval(),
-							TimeUnit.MILLISECONDS);
+			ScheduledFuture<?> future = scheduledExecutorService.scheduleAtFixedRate(task, 0L,
+					metric.getMetricPollTimeInterval(), TimeUnit.MILLISECONDS);
 			scheduledTasks.put(metric, task);
 			scheduledFutures.put(metric, future);
 
@@ -274,39 +238,16 @@ public class RunningMetricsManagerImpl implements IMetricsManager,
 	}
 
 	@Override
-	public void updateMetricPollTime(IMetric metric)
-			throws MetricNotRunningException {
-		if (patternMetrics.contains(metric)) {
-			// removes old object instance
-			patternMetrics.remove(metric);
-			// adds instance with new pooling time
-			patternMetrics.add(metric);
-		} else {
-			stopMetric(metric);
-			startMetric(metric);
-		}
+	public void updateMetricPollTime(IMetric metric) throws MetricNotRunningException {
+		stopMetric(metric);
+		startMetric(metric);
 	}
 
 	@Override
 	public void problemOcurred(IMetric metric, Exception e) {
-		// retry three times
-		MetricTask task = scheduledTasks.get(metric);
-
-		if (task.getNumberOfRetries() >= NUMBER_OF_RETRIES_THRESHOLD) {
-			logger.debug("Metric: " + metric + " failed! Stopping after "
-					+ task.getNumberOfRetries() + " retries ("
-					+ NUMBER_OF_RETRIES_THRESHOLD + ")");
-			stopMetric(metric);
-		} else {
-			logger.debug("Metric: " + metric + " failed! Retrying: "
-					+ task.getNumberOfRetries() + " ("
-					+ NUMBER_OF_RETRIES_THRESHOLD + ")");
-		}
-	}
-
-	@Override
-	public List<IMetric> getPatternMetrics() {
-		return patternMetrics;
+		// we don't care what kind of exception was thrown right now - just kill
+		// the metric
+		stopMetric(metric);
 	}
 
 }

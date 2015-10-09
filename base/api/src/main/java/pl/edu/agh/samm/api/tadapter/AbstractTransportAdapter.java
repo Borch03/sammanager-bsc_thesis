@@ -17,9 +17,9 @@
 
 package pl.edu.agh.samm.api.tadapter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,83 +27,71 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Pawel Koperek <pkoperek@gmail.com>
  * @author Mateusz Kupisz <mkupisz@gmail.com>
- * 
+ *
  */
 public abstract class AbstractTransportAdapter implements ITransportAdapter {
 
-	protected List<IResourceDiscoveryListener> registryListeners = new CopyOnWriteArrayList<IResourceDiscoveryListener>();
-	protected List<IMeasurementListener> capabilityListeners = new CopyOnWriteArrayList<IMeasurementListener>();
-	private static final Logger logger = LoggerFactory
-			.getLogger(AbstractTransportAdapter.class);
+    protected List<IResourceDiscoveryListener> registryListeners = new ArrayList<IResourceDiscoveryListener>();
+    protected List<IMeasurementListener> capabilityListeners = new ArrayList<IMeasurementListener>();
+    private static final Logger logger = LoggerFactory.getLogger(AbstractTransportAdapter.class);
 
-	@Override
-	public void addTransportAdapterListener(
-			final IResourceDiscoveryListener listener) {
-		if (!registryListeners.contains(listener)) {
-			registryListeners.add(listener);
-		}
-	}
+    @Override
+    public void addTransportAdapterListener(final IResourceDiscoveryListener listener) {
+        if (!registryListeners.contains(listener)) {
+            registryListeners.add(listener);
+        }
+    }
 
-	@Override
-	public void removeTransportAdapterListener(
-			IResourceDiscoveryListener listener) {
-		registryListeners.remove(listener);
-	}
+    @Override
+    public void removeTransportAdapterListener(IResourceDiscoveryListener listener) {
+        registryListeners.remove(listener);
+    }
 
-	@Override
-	public void addMeasurementListener(IMeasurementListener capabilityListener) {
-		if (!capabilityListeners.contains(capabilityListener)) {
-			capabilityListeners.add(capabilityListener);
-		}
-	}
+    @Override
+    public void addMeasurementListener(IMeasurementListener capabilityListener) {
+        if (!capabilityListeners.contains(capabilityListener)) {
+            capabilityListeners.add(capabilityListener);
+        }
+    }
 
-	@Override
-	public void removeMeasurementListener(
-			IMeasurementListener capabilityListener) {
-		capabilityListeners.remove(capabilityListener);
-	}
+    @Override
+    public void removeMeasurementListener(IMeasurementListener capabilityListener) {
+        capabilityListeners.remove(capabilityListener);
+    }
 
-	protected void fireNewCapabilityValueEvent(String capabilityUri,
-			String resourceInstanceUri, String resourceTypeUri, Object value) {
-		if (value != null) {
-			IMeasurementEvent event = new MeasurementEvent(capabilityUri,
-					resourceInstanceUri, resourceTypeUri, value);
-			fireEvent(event);
-		}
-	}
+    protected void fireNewCapabilityValueEvent(String capabilityUri, String resourceInstanceUri,
+                                               String resourceTypeUri, Object value) {
+        if (value != null) {
+            ICapabilityEvent event = new CapabilityEvent(CapabilityEventType.NEW_CAPABILITY_VALUE,
+                    capabilityUri, resourceInstanceUri, resourceTypeUri, value);
+            fireEvent(event);
+        }
+    }
 
-	protected void fireEvent(IMeasurementEvent event) {
-		for (IMeasurementListener listener : capabilityListeners) {
-			try {
-				listener.processMeasurementEvent(event);
-			} catch (Throwable e) {
-				logger.error("Listener thrown an exception during MeasurementEvent processing! Removing from listeners list!");
-				logger.debug(
-						"Listener thrown an exception during MeasurementEvent processing! Removing from listeners list!",
-						e);
-				capabilityListeners.remove(listener);
-			}
-		}
-	}
+    protected void fireEvent(ICapabilityEvent event) {
+        for (IMeasurementListener listener : capabilityListeners) {
+            try {
+                listener.processEvent(event);
+            } catch (Throwable t) {
+                logger.error("Listener thrown an exception during CapabilityEvent processing!", t);
+            }
+        }
+    }
 
-	protected void fireEvent(IResourceDiscoveryEvent event) {
-		for (IResourceDiscoveryListener listener : registryListeners) {
-			try {
-				listener.processEvent(event);
-			} catch (Throwable t) {
-				logger.error(
-						"Listener thrown an exception during ResourceDiscoveryEvent processing!",
-						t);
-			}
-		}
-	}
+    protected void fireEvent(IResourceDiscoveryEvent event) {
+        for (IResourceDiscoveryListener listener : registryListeners) {
+            try {
+                listener.processEvent(event);
+            } catch (Throwable t) {
+                logger.error("Listener thrown an exception during ResourceDiscoveryEvent processing!", t);
+            }
+        }
+    }
 
-	protected void fireNewResourcesEvent(String parentURI,
-			Map<String, String> types,
-			Map<String, Map<String, Object>> properties) {
-		IResourceDiscoveryEvent event = new ResourceDiscoveryEvent(
-				ResourceDiscoveryEventType.NEW_RESOURCES_DISCOVERED, types,
-				properties, parentURI);
-		fireEvent(event);
-	}
+    protected void fireNewResourcesEvent(String parentURI, Map<String, String> types,
+                                         Map<String, Map<String, Object>> properties) {
+        IResourceDiscoveryEvent event = new ResourceDiscoveryEvent(
+                ResourceDiscoveryEventType.NEW_RESOURCES_DISCOVERED, types, properties, parentURI);
+        fireEvent(event);
+    }
 }

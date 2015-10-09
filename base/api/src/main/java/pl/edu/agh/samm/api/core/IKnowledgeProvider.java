@@ -17,21 +17,17 @@
 
 package pl.edu.agh.samm.api.core;
 
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-
-import pl.edu.agh.samm.api.action.Action;
-import pl.edu.agh.samm.api.action.ActionExecution;
-import pl.edu.agh.samm.api.metrics.IMetric;
+import pl.edu.agh.samm.api.knowledge.IKnowledge;
 
 /**
  * @author Pawel Koperek <pkoperek@gmail.com>
  * @author Mateusz Kupisz <mkupisz@gmail.com>
  * 
  */
-public interface IRMIActionExecutionListener extends Remote,
-		IActionExecutionListener {
+public interface IKnowledgeProvider {
+	IKnowledge getDefaultKnowledgeSource();
 
-    @Override
-    void notifyActionExecution(Action executedAction) throws RemoteException;
+	IKnowledge getKnowledgeSourceForURI(String uri);
+
+	IKnowledge getKnowledgeSourceForMetricURI(String metricUri);
 }

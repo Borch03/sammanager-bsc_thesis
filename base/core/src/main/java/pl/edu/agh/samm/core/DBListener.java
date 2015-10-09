@@ -26,11 +26,10 @@ import org.slf4j.LoggerFactory;
 import pl.edu.agh.samm.api.core.ICoreManagement;
 import pl.edu.agh.samm.api.db.IStorageService;
 import pl.edu.agh.samm.api.metrics.IMetric;
-import pl.edu.agh.samm.api.metrics.IMetricEvent;
 import pl.edu.agh.samm.api.metrics.IMetricListener;
 import pl.edu.agh.samm.api.metrics.IMetricsManagerListener;
 import pl.edu.agh.samm.api.metrics.MetricNotRunningException;
-import pl.edu.agh.samm.api.tadapter.IMeasurementEvent;
+import pl.edu.agh.samm.api.tadapter.ICapabilityEvent;
 import pl.edu.agh.samm.api.tadapter.IMeasurementListener;
 
 /**
@@ -38,11 +37,9 @@ import pl.edu.agh.samm.api.tadapter.IMeasurementListener;
  * @author Mateusz Kupisz <mkupisz@gmail.com>
  * 
  */
-public class MeasurementMetricDBListener implements IMeasurementListener,
-		IMetricListener, IMetricsManagerListener {
+public class DBListener implements IMeasurementListener, IMetricListener, IMetricsManagerListener {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(MeasurementMetricDBListener.class);
+	private static final Logger logger = LoggerFactory.getLogger(DBListener.class);
 
 	private ICoreManagement coreManagement = null;
 	private IStorageService storageService = null;
@@ -60,9 +57,14 @@ public class MeasurementMetricDBListener implements IMeasurementListener,
 	}
 
 	@Override
-	public void processMeasurementEvent(IMeasurementEvent event) {
-		storageService.storeMeasurement(event.getInstanceUri(),
-				event.getCapabilityUri(), new Date(), event.getValue());
+	public void processEvent(ICapabilityEvent event) {
+		storageService.storeMeasurement(event.getInstanceUri(), event.getCapabilityUri(), new Date(),
+				event.getValue());
+	}
+
+	@Override
+	public void notifyMetricValue(IMetric metric, Number value) throws Exception {
+		storageService.storeMetricValue(metric, value);
 	}
 
 	@Override
@@ -87,12 +89,6 @@ public class MeasurementMetricDBListener implements IMeasurementListener,
 
 	public void setCoreManagement(ICoreManagement coreManagement) {
 		this.coreManagement = coreManagement;
-	}
-
-	@Override
-	public void processMetricEvent(IMetricEvent metricEvent) throws Exception {
-		storageService.storeMetricValue(metricEvent.getMetric(),
-				metricEvent.getValue());
 	}
 
 }

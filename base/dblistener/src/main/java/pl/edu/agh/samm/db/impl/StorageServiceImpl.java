@@ -70,7 +70,7 @@ public class StorageServiceImpl implements IStorageService {
 	 * 
 	 * @see
 	 * pl.edu.agh.samm.db.IStorageService#storeMeasurement(pl.edu.agh.samm.api
-	 * .metrics.IConfiguredMetric, java.lang.Number)
+	 * .metrics.IMetric, java.lang.Number)
 	 */
 	@Override
 	public void storeMetricValue(IMetric metric, Number value) {

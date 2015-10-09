@@ -30,39 +30,29 @@ import java.util.Map;
  */
 public interface IResourceInstancesManager {
 
-	Collection<String> getAllRegisteredResources();
+    Collection<String> getAllRegisteredResources();
 
-	String getResourceType(String uri);
+    String getResourceType(String uri);
 
-	boolean isResourceRegistered(String uri);
+    boolean isResourceRegistered(String uri);
 
-	void removeResource(String uri);
+    void removeResource(String uri);
 
-	void addResourceListener(IResourceListener resourceListener);
+    void addResourceListener(IResourceListener resourceListener);
 
-	void removeResourceListener(IResourceListener resourceListener);
+    void removeResourceListener(IResourceListener resourceListener);
 
-	List<String> getResourceCapabilities(String uri)
-			throws ResourceNotRegisteredException;
+    List<String> getResourceCapabilities(String uri) throws ResourceNotRegisteredException;
 
-	void addResource(Resource resource)
-			throws ResourceAlreadyRegisteredException;
+    void addResource(String uri, String type, Map<String, Object> parameters)
+            throws ResourceAlreadyRegisteredException;
 
-	void addChildResource(String parentUri, Resource childResource)
-			throws ResourceNotRegisteredException;
+    void addChildResource(String parentUri, String uri, String type, Map<String, Object> parameters)
+            throws ResourceNotRegisteredException;
 
-	/**
-	 * If regex is an URI the method should return the same value as
-	 * getResourceForURI
-	 * 
-	 * @param regex
-	 * @return
-	 */
-	List<Resource> getResourcesForRegex(String regex);
+    Resource getResourceForURI(String uri);
 
-	Resource getResourceForURI(String uri);
+    List<String> getResourcesOfType(String type);
 
-	List<String> getResourcesOfType(String type);
-
-	void addResourceParameters(String uri, Map<String, Object> parameters);
+    void addResourceParameters(String uri, Map<String, Object> parameters);
 }

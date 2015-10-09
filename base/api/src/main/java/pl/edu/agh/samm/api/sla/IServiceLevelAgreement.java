@@ -17,6 +17,8 @@
 
 package pl.edu.agh.samm.api.sla;
 
+import pl.edu.agh.samm.api.knowledge.ICriterion;
+
 import java.util.List;
 import java.util.Map;
 
@@ -64,7 +66,7 @@ public interface IServiceLevelAgreement {
 	 *            metric URI
 	 * @return criteria for given resource pattern and metric
 	 */
-	//ICriterion getCriterionForResourceMetric(String pattern, String metricURI);
+	ICriterion getCriterionForResourceMetric(String pattern, String metricURI);
 
 	/**
 	 * Gets metric cost for given resource instance URI RegExp pattern and

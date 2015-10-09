@@ -17,21 +17,21 @@
 
 package pl.edu.agh.samm.api.core;
 
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-
-import pl.edu.agh.samm.api.action.Action;
-import pl.edu.agh.samm.api.action.ActionExecution;
-import pl.edu.agh.samm.api.metrics.IMetric;
-
 /**
  * @author Pawel Koperek <pkoperek@gmail.com>
  * @author Mateusz Kupisz <mkupisz@gmail.com>
  * 
  */
-public interface IRMIActionExecutionListener extends Remote,
-		IActionExecutionListener {
+public interface ILearningStageListener {
+	void startedNewAction(String actionUri) throws Exception;
 
-    @Override
-    void notifyActionExecution(Action executedAction) throws RemoteException;
+	void waiting() throws Exception;
+
+	void learninegStageFinished() throws Exception;
+
+	void taskDone() throws Exception;
+
+	void preActionWaiting() throws Exception;
+
+	void postActionWaiting() throws Exception;
 }

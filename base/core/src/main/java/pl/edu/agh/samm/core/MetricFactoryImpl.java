@@ -15,23 +15,31 @@
  * along with SAMM.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package pl.edu.agh.samm.api.core;
+/**
+ * 
+ */
+package pl.edu.agh.samm.core;
 
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-
-import pl.edu.agh.samm.api.action.Action;
-import pl.edu.agh.samm.api.action.ActionExecution;
 import pl.edu.agh.samm.api.metrics.IMetric;
+import pl.edu.agh.samm.api.metrics.Metric;
 
 /**
  * @author Pawel Koperek <pkoperek@gmail.com>
  * @author Mateusz Kupisz <mkupisz@gmail.com>
  * 
  */
-public interface IRMIActionExecutionListener extends Remote,
-		IActionExecutionListener {
+public class MetricFactoryImpl implements IMetricFactory {
 
-    @Override
-    void notifyActionExecution(Action executedAction) throws RemoteException;
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * pl.edu.agh.samm.core.impl.IMetricFactory#createMetric(java.lang.String,
+	 * java.lang.String)
+	 */
+	@Override
+	public IMetric createMetric(String metricURI, String resourceURI) {
+		return new Metric(metricURI, resourceURI);
+	}
+
 }

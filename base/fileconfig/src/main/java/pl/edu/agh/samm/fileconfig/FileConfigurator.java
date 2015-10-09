@@ -117,7 +117,8 @@ public class FileConfigurator {
     private void registerResources(List<ConfigurationResource> resources) {
         for (ConfigurationResource configurationResource : resources) {
             try {
-                coreManagement.registerResource(configurationResource.getResource());
+                coreManagement.registerResource(configurationResource.getResource().getUri(),
+                        configurationResource.getResource().getType(), configurationResource.getResource().getProperties());
             } catch (ResourceAlreadyRegisteredException e) {
                 logger.error("Cannot add resource: "
                         + configurationResource, e);

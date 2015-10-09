@@ -17,8 +17,8 @@
 
 package pl.edu.agh.samm.core;
 
-import pl.edu.agh.samm.api.metrics.IMetricListener;
 import pl.edu.agh.samm.api.sla.IServiceLevelAgreement;
+import pl.edu.agh.samm.api.metrics.IMetricListener;
 
 /**
  * @author Pawel Koperek <pkoperek@gmail.com>

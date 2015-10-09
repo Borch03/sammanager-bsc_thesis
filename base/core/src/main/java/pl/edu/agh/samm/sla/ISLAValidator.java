@@ -15,23 +15,19 @@
  * along with SAMM.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package pl.edu.agh.samm.api.core;
+package pl.edu.agh.samm.sla;
 
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-
-import pl.edu.agh.samm.api.action.Action;
-import pl.edu.agh.samm.api.action.ActionExecution;
-import pl.edu.agh.samm.api.metrics.IMetric;
+import pl.edu.agh.samm.api.sla.IServiceLevelAgreement;
+import pl.edu.agh.samm.metrics.ICriteriaValidator;
 
 /**
  * @author Pawel Koperek <pkoperek@gmail.com>
  * @author Mateusz Kupisz <mkupisz@gmail.com>
  * 
  */
-public interface IRMIActionExecutionListener extends Remote,
-		IActionExecutionListener {
+public interface ISLAValidator extends ICriteriaValidator {
 
-    @Override
-    void notifyActionExecution(Action executedAction) throws RemoteException;
+	void setupSLA(IServiceLevelAgreement agreement);
+
+	IServiceLevelAgreement getSLA();
 }

@@ -25,6 +25,6 @@ package pl.edu.agh.samm.api.metrics;
  */
 public interface IMetricListener {
 
-	void processMetricEvent(IMetricEvent metricEvent) throws Exception;
+    void notifyMetricValue(IMetric metric, Number value) throws Exception;
 
 }

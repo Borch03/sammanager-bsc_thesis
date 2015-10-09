@@ -19,14 +19,25 @@ package pl.edu.agh.samm.api.core;
 
 import pl.edu.agh.samm.api.metrics.IMetric;
 
+import java.util.List;
+
 /**
  * @author koperek
  * 
  */
 public interface IAlarm {
-	IMetric getMetric();
 
-	String getRuleName();
+    /**
+     * @return the metric
+     */
+    IMetric getMetric();
 
-	Number getValue();
+    /**
+     * @return the metricsToStart
+     */
+    List<IMetric> getMetricsToStart();
+
+    String getDescription();
+
+    Number getSuggestedMetricRank(IMetric suggestedMetric);
 }

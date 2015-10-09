@@ -19,7 +19,6 @@ package pl.edu.agh.samm.metrics;
 
 import java.rmi.RemoteException;
 import java.util.Collection;
-import java.util.List;
 
 import pl.edu.agh.samm.api.metrics.IMetric;
 import pl.edu.agh.samm.api.metrics.IMetricListener;
@@ -45,7 +44,7 @@ public interface IMetricsManager {
 	 * Subscribes to the events of changes in the collection of currently
 	 * running metrics on the Core system. When a new listener is added, it is
 	 * notified about currently running metrics with use of the
-	 * {@link IMetricsManagerListener#notifyNewMetricsStarted(Collection)} . If
+	 * {@link IMetricsManagerListener#notifyNewMetricsStarted(java.util.Collection)} . If
 	 * the listener was previously added, the call is ignored.
 	 * 
 	 * @param listener
@@ -85,7 +84,7 @@ public interface IMetricsManager {
 	 *            Listeners to add. If null - no listener added
 	 */
 	void startMetricAndAddRunningMetricListener(IMetric metric,
-			Collection<IMetricListener> listeners);
+                                                Collection<IMetricListener> listeners);
 
 	/**
 	 * Unsubscribe from events containing metric values.
@@ -122,7 +121,7 @@ public interface IMetricsManager {
 	 * 
 	 * @param metric
 	 * @param pollTimeInterval
-	 * @throws RemoteException
+	 * @throws java.rmi.RemoteException
 	 */
 	void updateMetricPollTime(IMetric metric) throws MetricNotRunningException;
 
@@ -134,7 +133,5 @@ public interface IMetricsManager {
 	 * @return True is metric is observed, false otherwise
 	 */
 	boolean isMetricRunning(IMetric metric);
-
-	List<IMetric> getPatternMetrics();
 
 }

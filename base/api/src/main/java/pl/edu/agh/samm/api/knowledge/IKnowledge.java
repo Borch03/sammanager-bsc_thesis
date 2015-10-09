@@ -64,4 +64,5 @@ public interface IKnowledge {
 
 	String getParameterType(String parameterURI);
 
+    ICriterion getMetricValueAcceptationCriterion(String metricURI);
 }

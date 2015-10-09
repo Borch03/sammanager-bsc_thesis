@@ -46,8 +46,7 @@ import pl.edu.agh.samm.api.metrics.ResourceEventType;
  * @author Mateusz Kupisz <mkupisz@gmail.com>
  * 
  */
-public class TestBean implements IResourceListener, IMetricsManagerListener,
-		IMetricListener {
+public class TestBean implements IResourceListener, IMetricsManagerListener, IMetricListener {
 	private ICoreManagement coreManagement;
 	private Logger logger = LoggerFactory.getLogger(TestBean.class);
 	private boolean registered = false;
@@ -85,8 +84,10 @@ public class TestBean implements IResourceListener, IMetricsManagerListener,
 
 		coreManagement.addRule(r);
 
-		coreManagement.registerResource(new Resource("jmx://cluster01/node01",
-				"http://www.icsr.agh.edu.pl/samm_1.owl#Node", params));
+        params = new HashMap<String, Object>();
+        params.put("JMXURL", "service:jmx:rmi:///jndi/rmi://localhost:9999/jmxrmi");
+        coreManagement.registerResource("jmx://cluster01/node01",
+                "http://www.icsr.agh.edu.pl/samm_1.owl#Node", params);
 
 		logger.info("END OF TEST INITIALIZATION");
 	}
@@ -130,10 +131,9 @@ public class TestBean implements IResourceListener, IMetricsManagerListener,
 
 	}
 
-	@Override
-	public void processMetricEvent(IMetricEvent event) {
-		logger.info("***** GOT VALUE ***** " + event.getMetric() + " : "
-				+ event.getValue());
-	}
+    @Override
+    public void notifyMetricValue(IMetric metric, Number value) {
+        logger.info("***** GOT VALUE ***** " + metric + " : " + value);
+    }
 
 }

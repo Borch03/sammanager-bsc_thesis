@@ -28,7 +28,7 @@ import java.rmi.RemoteException;
  */
 public interface IRMIMetricListener extends IMetricListener, Remote {
 
-	@Override
-	void processMetricEvent(IMetricEvent metricEvent) throws RemoteException;
+    @Override
+    void notifyMetricValue(IMetric metric, Number value) throws RemoteException;
 
 }

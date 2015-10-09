@@ -24,162 +24,161 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import pl.edu.agh.samm.api.knowledge.ICriterion;
+
 /**
  * @author Pawel Koperek <pkoperek@gmail.com>
  * @author Mateusz Kupisz <mkupisz@gmail.com>
- * 
+ *
  */
 public class ServiceLevelAgreement implements IServiceLevelAgreement, Serializable {
 
-	private static final long serialVersionUID = -3264499157016715402L;
+    private static final long serialVersionUID = -3264499157016715402L;
 
-	private List<String> involvedResources = new LinkedList<String>();
+    private List<String> involvedResources = new LinkedList<String>();
 
-	// resource uri -> {parameter -> object}
-	private Map<String, Map<String, Object>> parameters = new HashMap<String, Map<String, Object>>();
+    // resource uri -> {parameter -> object}
+    private Map<String, Map<String, Object>> parameters = new HashMap<String, Map<String, Object>>();
 
-	// resource uri -> list of metrics
-	private Map<String, List<String>> metricsForResources = new HashMap<String, List<String>>();
+    // resource uri -> list of metrics
+    private Map<String, List<String>> metricsForResources = new HashMap<String, List<String>>();
 
-	// resource uri -> {metric uri -> criterion}
-//	private Map<String, Map<String, ICriterion>> metricsCriteria = new HashMap<String, Map<String, ICriterion>>();
+    // resource uri -> {metric uri -> criterion}
+    private Map<String, Map<String, ICriterion>> metricsCriteria = new HashMap<String, Map<String, ICriterion>>();
 
-	// resource uri -> {metric uri -> cost}
-	private Map<String, Map<String, Number>> resourcesMetricsCosts = new HashMap<String, Map<String, Number>>();
+    // resource uri -> {metric uri -> cost}
+    private Map<String, Map<String, Number>> resourcesMetricsCosts = new HashMap<String, Map<String, Number>>();
 
-	// resource uri -> resource type
-	private Map<String, String> resourceTypes = new HashMap<String, String>();
+    // resource uri -> resource type
+    private Map<String, String> resourceTypes = new HashMap<String, String>();
 
-//	@Override
-//	public ICriterion getCriterionForResourceMetric(String resourceURI, String metricURI) {
-//		Map<String, ICriterion> metricCriteria = metricsCriteria.get(resourceURI);
-//		if (metricCriteria != null) {
-//			return metricCriteria.get(metricURI);
-//		}
-//
-//		return null;
-//	}
+    @Override
+    public ICriterion getCriterionForResourceMetric(String resourceURI, String metricURI) {
+        Map<String, ICriterion> metricCriteria = metricsCriteria.get(resourceURI);
+        if (metricCriteria != null) {
+            return metricCriteria.get(metricURI);
+        }
 
-	public void addInvolvedResource(String uri, String resourceType) {
-		involvedResources.add(uri);
-		resourceTypes.put(uri, resourceType);
-	}
+        return null;
+    }
 
-	public void clear() {
-		clearInvolvedResources();
-		this.parameters.clear();
-//		this.metricsCriteria.clear();
-		this.metricsForResources.clear();
-		this.resourcesMetricsCosts.clear();
-	}
+    public void addInvolvedResource(String uri, String resourceType) {
+        involvedResources.add(uri);
+        resourceTypes.put(uri, resourceType);
+    }
 
-	public void clearInvolvedResources() {
-		involvedResources.clear();
-		resourceTypes.clear();
-	}
+    public void clear() {
+        clearInvolvedResources();
+        this.parameters.clear();
+        this.metricsCriteria.clear();
+        this.metricsForResources.clear();
+        this.resourcesMetricsCosts.clear();
+    }
 
-	@Override
-	public List<String> getInvolvedPatterns() {
-		return involvedResources;
-	}
+    public void clearInvolvedResources() {
+        involvedResources.clear();
+        resourceTypes.clear();
+    }
 
-	@Override
-	public Number getMetricCost(String resourceURI, String metricURI) {
-		Map<String, Number> resourceMetricsCost = resourcesMetricsCosts.get(resourceURI);
+    @Override
+    public List<String> getInvolvedPatterns() {
+        return involvedResources;
+    }
 
-		if (resourceMetricsCost != null) {
-			return resourceMetricsCost.get(metricURI);
-		}
+    @Override
+    public Number getMetricCost(String resourceURI, String metricURI) {
+        Map<String, Number> resourceMetricsCost = resourcesMetricsCosts.get(resourceURI);
 
-		return null;
-	}
+        if (resourceMetricsCost != null) {
+            return resourceMetricsCost.get(metricURI);
+        }
 
-	@Override
-	public List<String> getMetricsForResource(String resourceURI) {
-		return metricsForResources.get(resourceURI);
-	}
+        return null;
+    }
 
-	@Override
-	public Map<String, Object> getParameters(String resourceURI) {
-		return parameters.get(resourceURI);
-	}
+    @Override
+    public List<String> getMetricsForResource(String resourceURI) {
+        return metricsForResources.get(resourceURI);
+    }
 
-	@Override
-	public String getResourceType(String resource) {
-		return resourceTypes.get(resource);
-	}
+    @Override
+    public Map<String, Object> getParameters(String resourceURI) {
+        return parameters.get(resourceURI);
+    }
 
-	public void addResourceParameters(String uri, Map<String, Object> parameters) {
-		this.parameters.put(uri, parameters);
-	}
+    @Override
+    public String getResourceType(String resource) {
+        return resourceTypes.get(resource);
+    }
 
-	public void removeInvolvedResource(String uri) {
-		involvedResources.remove(uri);
-		parameters.remove(uri);
-		resourceTypes.remove(uri);
-		metricsForResources.remove(uri);
-//		metricsCriteria.remove(uri);
-		resourcesMetricsCosts.remove(uri);
-	}
+    public void addResourceParameters(String uri, Map<String, Object> parameters) {
+        this.parameters.put(uri, parameters);
+    }
 
-//	public void addCriterionForResourceMetric(String selectedResource, String selectedMetric,
-//			ICriterion criterion) {
-//
-//		// add actual criterion
-//		Map<String, ICriterion> criteria = metricsCriteria.get(selectedResource);
-//		if (criteria == null) {
-//			criteria = new HashMap<String, ICriterion>();
-//			metricsCriteria.put(selectedResource, criteria);
-//		}
-//		criteria.put(selectedMetric, criterion);
-//
-//		// add metric for resource
-//		addMetricForResource(selectedResource, selectedMetric);
-//	}
+    public void removeInvolvedResource(String uri) {
+        involvedResources.remove(uri);
+        parameters.remove(uri);
+        resourceTypes.remove(uri);
+        metricsForResources.remove(uri);
+        metricsCriteria.remove(uri);
+        resourcesMetricsCosts.remove(uri);
+    }
 
-	private void addMetricForResource(String selectedResource, String selectedMetric) {
-		List<String> metricsForResource = metricsForResources.get(selectedResource);
+    public void addCriterionForResourceMetric(String selectedResource, String selectedMetric,
+                                              ICriterion criterion) {
 
-		if (metricsForResource == null) {
-			metricsForResource = new ArrayList<String>();
-			metricsForResources.put(selectedResource, metricsForResource);
-		}
+        // add actual criterion
+        Map<String, ICriterion> criteria = metricsCriteria.get(selectedResource);
+        if (criteria == null) {
+            criteria = new HashMap<String, ICriterion>();
+            metricsCriteria.put(selectedResource, criteria);
+        }
+        criteria.put(selectedMetric, criterion);
 
-		if (!metricsForResource.contains(selectedMetric)) {
-			metricsForResource.add(selectedMetric);
-		}
-	}
+        // add metric for resource
+        addMetricForResource(selectedResource, selectedMetric);
+    }
 
-	//
-	// public void removeCriterionForResourceMetric(String selectedResource,
-	// String selectedMetric) {
-	// Map<String, ICriterion> criteria = metricsCriteria.get(selectedResource);
-	// if (criteria != null) {
-	// criteria.remove(selectedMetric);
-	// if (criteria.size() == 0) {
-	// metricsCriteria.remove(selectedResource);
-	// List<String> metricsForResource =
-	// metricsForResources.get(selectedResource);
-	// metricsForResource.remove(selectedMetric);
-	// }
-	// }
-	// }
+    private void addMetricForResource(String selectedResource, String selectedMetric) {
+        List<String> metricsForResource = metricsForResources.get(selectedResource);
 
-	public void setResourceMetricCost(String selectedResource, String selectedMetric, Number cost) {
-		Map<String, Number> resourceMetricsCost = resourcesMetricsCosts.get(selectedResource);
+        if (metricsForResource == null) {
+            metricsForResource = new ArrayList<String>();
+            metricsForResources.put(selectedResource, metricsForResource);
+        }
 
-		if (resourceMetricsCost == null) {
-			resourceMetricsCost = new HashMap<String, Number>();
-			resourcesMetricsCosts.put(selectedResource, resourceMetricsCost);
-		}
+        if (!metricsForResource.contains(selectedMetric)) {
+            metricsForResource.add(selectedMetric);
+        }
+    }
 
-		if (cost != null) {
-			resourceMetricsCost.put(selectedMetric, cost);
-		} else {
-			resourceMetricsCost.remove(selectedMetric);
-		}
+    public void removeCriterionForResourceMetric(String selectedResource, String selectedMetric) {
+        Map<String, ICriterion> criteria = metricsCriteria.get(selectedResource);
+        if (criteria != null) {
+            criteria.remove(selectedMetric);
+            if (criteria.size() == 0) {
+                metricsCriteria.remove(selectedResource);
+                List<String> metricsForResource = metricsForResources.get(selectedResource);
+                metricsForResource.remove(selectedMetric);
+            }
+        }
+    }
 
-		addMetricForResource(selectedResource, selectedMetric);
-	}
+    public void setResourceMetricCost(String selectedResource, String selectedMetric, Number cost) {
+        Map<String, Number> resourceMetricsCost = resourcesMetricsCosts.get(selectedResource);
+
+        if (resourceMetricsCost == null) {
+            resourceMetricsCost = new HashMap<String, Number>();
+            resourcesMetricsCosts.put(selectedResource, resourceMetricsCost);
+        }
+
+        if (cost != null) {
+            resourceMetricsCost.put(selectedMetric, cost);
+        } else {
+            resourceMetricsCost.remove(selectedMetric);
+        }
+
+        addMetricForResource(selectedResource, selectedMetric);
+    }
 
 }

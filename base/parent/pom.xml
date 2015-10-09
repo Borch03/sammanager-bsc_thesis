@@ -6,8 +6,11 @@
 	<artifactId>base</artifactId>
 	<packaging>pom</packaging>
 	<name>SAMM - Base</name>
+    <modules>
+        <module>../estimator</module>
+    </modules>
 
-	<parent>
+    <parent>
 		<artifactId>samm</artifactId>
 		<groupId>pl.edu.agh</groupId>
 		<version>0.2.0-SNAPSHOT</version>
@@ -23,6 +26,7 @@
 			<modules>
 				<module>../api</module>
 				<module>../core</module>
+                <module>../estimator</module>
 				<module>../fileconfig</module>
 				<module>../transportadapters/parent</module>
 				<module>../knowledge</module>
@@ -118,7 +122,6 @@
             <version>${project.version}</version>
 			<scope>runtime</scope>
 		</dependency>
-
 		<!-- misc -->
 		<dependency>
 			<groupId>org.apache.log4j</groupId>

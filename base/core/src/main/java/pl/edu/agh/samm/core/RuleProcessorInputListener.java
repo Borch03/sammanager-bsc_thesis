@@ -27,6 +27,7 @@ import pl.edu.agh.samm.api.metrics.IMetricEvent;
 import pl.edu.agh.samm.api.metrics.IMetricListener;
 import pl.edu.agh.samm.api.metrics.IMetricsManagerListener;
 import pl.edu.agh.samm.api.metrics.MetricNotRunningException;
+import pl.edu.agh.samm.api.tadapter.ICapabilityEvent;
 import pl.edu.agh.samm.api.tadapter.IMeasurementEvent;
 import pl.edu.agh.samm.api.tadapter.IMeasurementListener;
 import pl.edu.agh.samm.metrics.IMetricsManager;
@@ -88,16 +89,16 @@ public class RuleProcessorInputListener implements IMetricListener,
      * edu.agh.samm.api.metrics.IMetricEvent)
      */
     @Override
-    public void processMetricEvent(IMetricEvent metricEvent) throws Exception {
+    public void notifyMetricValue(IMetric metric, Number value) throws Exception {
         if (enabled) {
-            ruleProcessor.processMetricEvent(metricEvent);
+            ruleProcessor.notifyMetricValue(metric, value);
         }
     }
 
     @Override
-    public void processMeasurementEvent(IMeasurementEvent event) {
+    public void processEvent(ICapabilityEvent event) {
         if (enabled) {
-            ruleProcessor.processMeasurementEvent(event);
+            ruleProcessor.processEvent(event);
         }
     }
 

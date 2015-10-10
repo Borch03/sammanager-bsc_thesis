@@ -6,7 +6,7 @@ Bundle-Version: 0.2.0.SNAPSHOT
 Bundle-Name: SAMM - Base - File Configuration
 Built-By: Dominik
 Bundle-ManifestVersion: 2
-Bnd-LastModified: 1434559200013
+Bnd-LastModified: 1444413002237
 Import-Package: com.thoughtworks.xstream;version="1.4",com.thoughtwork
  s.xstream.io;version="1.4",com.thoughtworks.xstream.io.xml;version="1
  .4",org.slf4j;version="1.6",pl.edu.agh.samm.api.action,pl.edu.agh.sam

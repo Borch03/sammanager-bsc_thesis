@@ -4,7 +4,7 @@ Bundle-Description: Autonomic semantic-based management for distribute
 Bundle-SymbolicName: pl.edu.agh.samm.test.Bundle
 Built-By: Dominik
 Bundle-ManifestVersion: 2
-Bnd-LastModified: 1434559201747
+Bnd-LastModified: 1444413003441
 Import-Package: org.slf4j;version="1.6",pl.edu.agh.samm.api.action,pl.
  edu.agh.samm.api.core,pl.edu.agh.samm.api.knowledge,pl.edu.agh.samm.a
  pi.metrics

@@ -59,6 +59,6 @@ public interface ITransportAdapter {
 
 	boolean isResourceRegistered(Resource resource);
 
-	void executeAction(Action actionToExecute) throws Exception;
+    void executeAction(Action actionToExecute) throws Exception;
 
 }

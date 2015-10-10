@@ -28,18 +28,12 @@ import javax.management.ObjectName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pl.edu.agh.samm.api.core.IActionExecutionListener;
-import pl.edu.agh.samm.api.core.IAlarmListener;
-import pl.edu.agh.samm.api.core.ICoreManagement;
-import pl.edu.agh.samm.api.core.IResourceListener;
-import pl.edu.agh.samm.api.core.Resource;
-import pl.edu.agh.samm.api.core.ResourceAlreadyRegisteredException;
-import pl.edu.agh.samm.api.core.ResourceNotRegisteredException;
-import pl.edu.agh.samm.api.core.Rule;
+import pl.edu.agh.samm.api.core.*;
 import pl.edu.agh.samm.api.metrics.IMetric;
 import pl.edu.agh.samm.api.metrics.IMetricListener;
 import pl.edu.agh.samm.api.metrics.IMetricsManagerListener;
 import pl.edu.agh.samm.api.metrics.MetricNotRunningException;
+import pl.edu.agh.samm.api.sla.IServiceLevelAgreement;
 
 /**
  * Simply delegates all calls to passed Core Management instance
@@ -86,32 +80,31 @@ public class SAMMCoreManagement implements SAMMCoreManagementMBean {
 		logger.info("Testing SAMMCoreManagement: " + arg);
 	}
 
-	public void registerResource(Resource resource)
-			throws ResourceAlreadyRegisteredException {
-		coreManagement.registerResource(resource);
+    @Override
+    public void registerResource(String uri, String type, Map<String, Object> parameters)
+            throws ResourceAlreadyRegisteredException {
+        coreManagement.registerResource(uri, type, parameters);
+    }
+
+	public void updateSLA(IServiceLevelAgreement serviceLevelAgreement) {
+	    coreManagement.updateSLA(serviceLevelAgreement);
 	}
 
-	// public void updateSLA(IServiceLevelAgreement serviceLevelAgreement) {
-	// coreManagement.updateSLA(serviceLevelAgreement);
-	// }
-	//
-	// public void startSLAValidation(IServiceLevelAgreement
-	// serviceLevelAgreement)
-	// throws SLAException {
-	// coreManagement.startSLAValidation(serviceLevelAgreement);
-	// }
-	//
-	// public void stopSLAValidation() throws SLAException {
-	// coreManagement.stopSLAValidation();
-	// }
-	//
-	// public IServiceLevelAgreement retrieveCurrentSLA() throws SLAException {
-	// return coreManagement.retrieveCurrentSLA();
-	// }
-	//
-	// public boolean isSLAValidationRunning() {
-	// return coreManagement.isSLAValidationRunning();
-	// }
+	public void startSLAValidation(IServiceLevelAgreement serviceLevelAgreement) throws SLAException {
+	    coreManagement.startSLAValidation(serviceLevelAgreement);
+	}
+
+	public void stopSLAValidation() throws SLAException {
+	    coreManagement.stopSLAValidation();
+	}
+
+	public IServiceLevelAgreement retrieveCurrentSLA() throws SLAException {
+	    return coreManagement.retrieveCurrentSLA();
+	}
+
+	public boolean isSLAValidationRunning() {
+	    return coreManagement.isSLAValidationRunning();
+	}
 
 	public boolean isResourceRegistered(String uri) {
 		return coreManagement.isResourceRegistered(uri);
@@ -166,6 +159,11 @@ public class SAMMCoreManagement implements SAMMCoreManagementMBean {
 			throws MetricNotRunningException {
 		coreManagement.updateMetricPollTimeInterval(metric);
 	}
+
+    @Override
+    public IMetric createRunningMetricInstance(String metricURI, String resourceURI) {
+        return coreManagement.createRunningMetricInstance(metricURI, resourceURI);
+    }
 
 	public void addRunningMetricListener(IMetric metric,
 			IMetricListener listener) throws MetricNotRunningException {
@@ -224,9 +222,13 @@ public class SAMMCoreManagement implements SAMMCoreManagementMBean {
 		coreManagement.removeRule(ruleName);
 	}
 
+    @Override
+    public void startLearning(ILearningStageListener finishListener) {
+        coreManagement.startLearning(finishListener);
+    }
+
 	@Override
 	public void setActionGracePeriod(int gracePeriodInSeconds) {
 		coreManagement.setActionGracePeriod(gracePeriodInSeconds);
 	}
-
 }

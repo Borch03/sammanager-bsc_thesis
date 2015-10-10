@@ -6,7 +6,7 @@ Bundle-Version: 0.2.0.SNAPSHOT
 Bundle-Name: SAMM - Base - DB Listener
 Built-By: Dominik
 Bundle-ManifestVersion: 2
-Bnd-LastModified: 1434559200904
+Bnd-LastModified: 1444413002823
 Import-Package: javax.sql,org.apache.commons.dbcp;version="[1.2.2.osgi
  ,1.2.2.osgi]",org.hsqldb;version="[1.8.0.10,1.8.0.10]",org.slf4j;vers
  ion="1.6",org.springframework.beans.factory.config;version="2.5",org.

@@ -20,10 +20,10 @@ package pl.edu.agh.samm.metrics;
 import java.rmi.RemoteException;
 import java.util.Collection;
 
-import pl.edu.agh.samm.api.metrics.IMetric;
-import pl.edu.agh.samm.api.metrics.IMetricListener;
-import pl.edu.agh.samm.api.metrics.IMetricsManagerListener;
-import pl.edu.agh.samm.api.metrics.MetricNotRunningException;
+import pl.edu.agh.samm.common.metrics.IConfiguredMetric;
+import pl.edu.agh.samm.common.metrics.IMetricListener;
+import pl.edu.agh.samm.common.metrics.IMetricsManagerListener;
+import pl.edu.agh.samm.common.metrics.MetricNotRunningException;
 
 /**
  * Interface for a manager of running metrics on the Core system. <br>
@@ -38,13 +38,13 @@ public interface IMetricsManager {
 	 * 
 	 * @return Running metrics
 	 */
-	Collection<IMetric> getRunningMetrics();
+	Collection<IConfiguredMetric> getRunningMetrics();
 
 	/**
 	 * Subscribes to the events of changes in the collection of currently
 	 * running metrics on the Core system. When a new listener is added, it is
 	 * notified about currently running metrics with use of the
-	 * {@link IMetricsManagerListener#notifyNewMetricsStarted(java.util.Collection)} . If
+	 * {@link IMetricsManagerListener#notifyNewMetricsStarted(Collection)} . If
 	 * the listener was previously added, the call is ignored.
 	 * 
 	 * @param listener
@@ -71,7 +71,7 @@ public interface IMetricsManager {
 	 * @param listener
 	 *            Listener to add
 	 */
-	void addMetricListener(IMetric metric, IMetricListener listener)
+	void addMetricListener(IConfiguredMetric metric, IMetricListener listener)
 			throws MetricNotRunningException;
 
 	/**
@@ -83,8 +83,8 @@ public interface IMetricsManager {
 	 * @param listeners
 	 *            Listeners to add. If null - no listener added
 	 */
-	void startMetricAndAddRunningMetricListener(IMetric metric,
-                                                Collection<IMetricListener> listeners);
+	void startMetricAndAddRunningMetricListener(IConfiguredMetric metric,
+			Collection<IMetricListener> listeners);
 
 	/**
 	 * Unsubscribe from events containing metric values.
@@ -95,7 +95,7 @@ public interface IMetricsManager {
 	 *            Listener to remove. If null - no listener removed.
 	 * 
 	 */
-	void removeMetricListener(IMetric metric, IMetricListener listener);
+	void removeMetricListener(IConfiguredMetric metric, IMetricListener listener);
 
 	/**
 	 * Starts a new thread to monitor a metric
@@ -103,7 +103,7 @@ public interface IMetricsManager {
 	 * @param metric
 	 *            Metric to be observed
 	 */
-	void startMetric(IMetric metric);
+	void startMetric(IConfiguredMetric metric);
 
 	/**
 	 * Stops observing a specific metric
@@ -113,17 +113,17 @@ public interface IMetricsManager {
 	 * @throws MetricNotRunningException
 	 *             Exception thrown when requested metric is not started
 	 */
-	void stopMetric(IMetric metric);
+	void stopMetric(IConfiguredMetric metric);
 
 	/**
 	 * Remote interface method for
-	 * {@link IMetric#setMetricPollTimeInterval(long)}.
+	 * {@link IConfiguredMetric#setMetricPollTimeInterval(long)}.
 	 * 
 	 * @param metric
 	 * @param pollTimeInterval
-	 * @throws java.rmi.RemoteException
+	 * @throws RemoteException
 	 */
-	void updateMetricPollTime(IMetric metric) throws MetricNotRunningException;
+	void updateMetricPollTime(IConfiguredMetric metric) throws MetricNotRunningException;
 
 	/**
 	 * Indicates that a metric is running or not
@@ -132,6 +132,6 @@ public interface IMetricsManager {
 	 *            Metric to be checked
 	 * @return True is metric is observed, false otherwise
 	 */
-	boolean isMetricRunning(IMetric metric);
+	boolean isMetricRunning(IConfiguredMetric metric);
 
 }

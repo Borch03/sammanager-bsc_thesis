@@ -27,9 +27,9 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pl.edu.agh.samm.api.db.IStorageService;
-import pl.edu.agh.samm.api.estimation.IEstimator;
-import pl.edu.agh.samm.api.metrics.MeasurementValue;
+import pl.edu.agh.samm.common.db.IStorageService;
+import pl.edu.agh.samm.common.estimation.IEstimator;
+import pl.edu.agh.samm.common.metrics.MeasurementValue;
 import weka.classifiers.Classifier;
 import weka.core.Attribute;
 import weka.core.FastVector;

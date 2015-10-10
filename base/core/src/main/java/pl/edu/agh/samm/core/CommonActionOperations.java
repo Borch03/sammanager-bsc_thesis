@@ -26,12 +26,12 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pl.edu.agh.samm.api.action.Action;
-import pl.edu.agh.samm.api.core.IKnowledgeProvider;
-import pl.edu.agh.samm.api.core.IResourceInstancesManager;
-import pl.edu.agh.samm.api.impl.MapHelper;
-import pl.edu.agh.samm.api.impl.VariationGenerator;
-import pl.edu.agh.samm.api.knowledge.IKnowledge;
+import pl.edu.agh.samm.common.action.Action;
+import pl.edu.agh.samm.common.core.IKnowledgeProvider;
+import pl.edu.agh.samm.common.core.IResourceInstancesManager;
+import pl.edu.agh.samm.common.impl.MapHelper;
+import pl.edu.agh.samm.common.impl.VariationGenerator;
+import pl.edu.agh.samm.common.knowledge.IKnowledge;
 
 /**
  * @author Pawel Koperek <pkoperek@gmail.com>

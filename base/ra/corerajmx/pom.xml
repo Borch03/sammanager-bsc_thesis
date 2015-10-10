@@ -4,8 +4,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>pl.edu.agh.samm.base.ra</groupId>
 	<artifactId>corerajmx</artifactId>
-	<name>SAMM - Base - Remote Access - Core JMX</name>
-	<packaging>bundle</packaging>
+    <name>SAMM - Base - Remote Access - Core JMX</name>
+    <packaging>bundle</packaging>
 
 	<parent>
 		<artifactId>ra</artifactId>
@@ -17,8 +17,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>pl.edu.agh.samm.base</groupId>
-			<artifactId>api</artifactId>
-            <version>${project.version}</version>
+			<artifactId>commons</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>

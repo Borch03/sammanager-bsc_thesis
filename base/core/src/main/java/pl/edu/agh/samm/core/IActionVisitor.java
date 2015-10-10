@@ -17,7 +17,7 @@
 
 package pl.edu.agh.samm.core;
 
-import pl.edu.agh.samm.api.action.Action;
+import pl.edu.agh.samm.common.action.Action;
 
 /**
  * @author Pawel Koperek <pkoperek@gmail.com>

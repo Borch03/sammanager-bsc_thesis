@@ -6,9 +6,6 @@
 	<artifactId>base</artifactId>
 	<packaging>pom</packaging>
 	<name>SAMM - Base</name>
-    <modules>
-        <module>../estimator</module>
-    </modules>
 
     <parent>
 		<artifactId>samm</artifactId>
@@ -24,14 +21,12 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<modules>
-				<module>../api</module>
+				<module>../commons</module>
 				<module>../core</module>
+                <module>../registries/parent</module>
                 <module>../estimator</module>
-				<module>../fileconfig</module>
-				<module>../transportadapters/parent</module>
 				<module>../knowledge</module>
 				<module>../dblistener</module>
-				<module>../log4j</module>
 				<module>../ra/parent</module>
 			</modules>
 		</profile>
@@ -122,6 +117,12 @@
             <version>${project.version}</version>
 			<scope>runtime</scope>
 		</dependency>
+        <dependency>
+            <groupId>pl.edu.agh.samm.providers</groupId>
+            <artifactId>pellet</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency>
 		<!-- misc -->
 		<dependency>
 			<groupId>org.apache.log4j</groupId>

@@ -27,9 +27,9 @@ import javax.management.ObjectName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pl.edu.agh.samm.api.core.IResourceListener;
-import pl.edu.agh.samm.api.knowledge.ICriterion;
-import pl.edu.agh.samm.api.knowledge.IKnowledge;
+import pl.edu.agh.samm.common.core.IResourceListener;
+import pl.edu.agh.samm.common.knowledge.ICriterion;
+import pl.edu.agh.samm.common.knowledge.IKnowledge;
 
 import com.hp.hpl.jena.ontology.OntModel;
 
@@ -49,7 +49,7 @@ public class Knowledge implements KnowledgeMBean {
 	/**
 	 * @param actionURI
 	 * @return
-	 * @see pl.edu.agh.samm.api.knowledge.IKnowledge#getParametersOfAction(java.lang.String)
+	 * @see pl.edu.agh.samm.common.knowledge.IKnowledge#getParametersOfAction(java.lang.String)
 	 */
 	@Override
 	public List<String> getParametersOfAction(String actionURI) {
@@ -59,7 +59,7 @@ public class Knowledge implements KnowledgeMBean {
 	/**
 	 * @param parameterURI
 	 * @return
-	 * @see pl.edu.agh.samm.api.knowledge.IKnowledge#getParameterType(java.lang.String)
+	 * @see pl.edu.agh.samm.common.knowledge.IKnowledge#getParameterType(java.lang.String)
 	 */
 	@Override
 	public String getParameterType(String parameterURI) {
@@ -81,7 +81,7 @@ public class Knowledge implements KnowledgeMBean {
 
 	/**
 	 * @param resourceListener
-	 * @see pl.edu.agh.samm.api.knowledge.IKnowledge#addOntologyChangeListener(pl.edu.agh.samm.api.core.IResourceListener)
+	 * @see pl.edu.agh.samm.common.knowledge.IKnowledge#addOntologyChangeListener(pl.edu.agh.samm.common.core.IResourceListener)
 	 */
 	@Override
 	public void addOntologyChangeListener(IResourceListener resourceListener) {
@@ -90,7 +90,7 @@ public class Knowledge implements KnowledgeMBean {
 
 	/**
 	 * @return
-	 * @see pl.edu.agh.samm.api.knowledge.IKnowledge#getAllAvailableMetrics()
+	 * @see pl.edu.agh.samm.common.knowledge.IKnowledge#getAllAvailableMetrics()
 	 */
 	@Override
 	public List<String> getAllAvailableMetrics() {
@@ -100,7 +100,7 @@ public class Knowledge implements KnowledgeMBean {
 	/**
 	 * @param type
 	 * @return
-	 * @see pl.edu.agh.samm.api.knowledge.IKnowledge#getCapabilitiesOfResourceType(java.lang.String)
+	 * @see pl.edu.agh.samm.common.knowledge.IKnowledge#getCapabilitiesOfResourceType(java.lang.String)
 	 */
 	@Override
 	public List<String> getCapabilitiesOfResourceType(String type) {
@@ -110,7 +110,7 @@ public class Knowledge implements KnowledgeMBean {
 	/**
 	 * @param type
 	 * @return
-	 * @see pl.edu.agh.samm.api.knowledge.IKnowledge#getChildrenResourceTypes(java.lang.String)
+	 * @see pl.edu.agh.samm.common.knowledge.IKnowledge#getChildrenResourceTypes(java.lang.String)
 	 */
 	@Override
 	public List<String> getChildrenResourceTypes(String type) {
@@ -120,7 +120,7 @@ public class Knowledge implements KnowledgeMBean {
 	/**
 	 * @param uri
 	 * @return
-	 * @see pl.edu.agh.samm.api.knowledge.IKnowledge#getClassNameForCustomMetric(java.lang.String)
+	 * @see pl.edu.agh.samm.common.knowledge.IKnowledge#getClassNameForCustomMetric(java.lang.String)
 	 */
 	@Override
 	public String getClassNameForCustomMetric(String uri) {
@@ -130,7 +130,7 @@ public class Knowledge implements KnowledgeMBean {
 	/**
 	 * @param type
 	 * @return
-	 * @see pl.edu.agh.samm.api.knowledge.IKnowledge#getMetricsForResourceType(java.lang.String)
+	 * @see pl.edu.agh.samm.common.knowledge.IKnowledge#getMetricsForResourceType(java.lang.String)
 	 */
 	@Override
 	public Set<String> getMetricsForResourceType(String type) {
@@ -145,7 +145,7 @@ public class Knowledge implements KnowledgeMBean {
 
 	/**
 	 * @return
-	 * @see pl.edu.agh.samm.api.knowledge.IKnowledge#getOntologyModel()
+	 * @see pl.edu.agh.samm.common.knowledge.IKnowledge#getOntologyModel()
 	 */
 	@Override
 	public OntModel getOntologyModel() {
@@ -154,7 +154,7 @@ public class Knowledge implements KnowledgeMBean {
 
 	/**
 	 * @return
-	 * @see pl.edu.agh.samm.api.knowledge.IKnowledge#getOntologyURI()
+	 * @see pl.edu.agh.samm.common.knowledge.IKnowledge#getOntologyURI()
 	 */
 	@Override
 	public String getOntologyURI() {
@@ -164,7 +164,7 @@ public class Knowledge implements KnowledgeMBean {
 	/**
 	 * @param metricURI
 	 * @return
-	 * @see pl.edu.agh.samm.api.knowledge.IKnowledge#getUsedCapabilities(java.lang.String)
+	 * @see pl.edu.agh.samm.common.knowledge.IKnowledge#getUsedCapabilities(java.lang.String)
 	 */
 	@Override
 	public List<String> getUsedCapabilities(String metricURI) {
@@ -174,7 +174,7 @@ public class Knowledge implements KnowledgeMBean {
 	/**
 	 * @param uri
 	 * @return
-	 * @see pl.edu.agh.samm.api.knowledge.IKnowledge#isCustomMetric(java.lang.String)
+	 * @see pl.edu.agh.samm.common.knowledge.IKnowledge#isCustomMetric(java.lang.String)
 	 */
 	@Override
 	public boolean isCustomMetric(String uri) {
@@ -183,7 +183,7 @@ public class Knowledge implements KnowledgeMBean {
 
 	/**
 	 * @param resourceListener
-	 * @see pl.edu.agh.samm.api.knowledge.IKnowledge#removeOntologyChangeListener(pl.edu.agh.samm.api.core.IResourceListener)
+	 * @see pl.edu.agh.samm.common.knowledge.IKnowledge#removeOntologyChangeListener(pl.edu.agh.samm.common.core.IResourceListener)
 	 */
 	@Override
 	public void removeOntologyChangeListener(IResourceListener resourceListener) {
@@ -198,25 +198,28 @@ public class Knowledge implements KnowledgeMBean {
 		return knowledge;
 	}
 
-
-
 	/**
 	 * @return
-	 * @see pl.edu.agh.samm.api.knowledge.IKnowledge#getMetricsWithDefinedLimits()
+	 * @see pl.edu.agh.samm.common.knowledge.IKnowledge#getMetricsWithDefinedLimits()
 	 */
 	@Override
 	public List<String> getMetricsWithDefinedLimits() {
 		return knowledge.getMetricsWithDefinedLimits();
 	}
 
-    @Override
-    public ICriterion getMetricValueAcceptationCriterion(String metricURI) {
-        return knowledge.getMetricValueAcceptationCriterion(metricURI);
-    }
+	/**
+	 * @param metricURI
+	 * @return
+	 * @see pl.edu.agh.samm.common.knowledge.IKnowledge#getMetricValueAcceptationCriterion(java.lang.String)
+	 */
+	@Override
+	public ICriterion getMetricValueAcceptationCriterion(String metricURI) {
+		return knowledge.getMetricValueAcceptationCriterion(metricURI);
+	}
 
 	/**
 	 * @return
-	 * @see pl.edu.agh.samm.api.knowledge.IKnowledge#getAllAvailableActions()
+	 * @see pl.edu.agh.samm.common.knowledge.IKnowledge#getAllAvailableActions()
 	 */
 	@Override
 	public List<String> getAllAvailableActions() {

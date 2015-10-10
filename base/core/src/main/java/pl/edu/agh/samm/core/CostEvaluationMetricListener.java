@@ -28,8 +28,8 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pl.edu.agh.samm.api.sla.IServiceLevelAgreement;
-import pl.edu.agh.samm.api.metrics.IMetric;
+import pl.edu.agh.samm.common.decision.IServiceLevelAgreement;
+import pl.edu.agh.samm.common.metrics.IConfiguredMetric;
 
 /**
  * @author Pawel Koperek <pkoperek@gmail.com>
@@ -40,8 +40,8 @@ public class CostEvaluationMetricListener implements ICurrentCostEvaluator {
 
 	private static Logger logger = LoggerFactory.getLogger(CostEvaluationMetricListener.class);
 
-	private Map<IMetric, Double> actualValues = Collections
-			.synchronizedMap(new HashMap<IMetric, Double>());
+	private Map<IConfiguredMetric, Double> actualValues = Collections
+			.synchronizedMap(new HashMap<IConfiguredMetric, Double>());
 	private IServiceLevelAgreement serviceLevelAgreement = null;
 
 	private ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
@@ -69,7 +69,7 @@ public class CostEvaluationMetricListener implements ICurrentCostEvaluator {
 	 * (non-Javadoc)
 	 * 
 	 * @see pl.edu.agh.samm.core.ICurrentCostEvaluator#setServiceLevelAgreement
-	 * (pl.edu.agh.samm.api.decision.IServiceLevelAgreement)
+	 * (pl.edu.agh.samm.common.decision.IServiceLevelAgreement)
 	 */
 	public void setServiceLevelAgreement(IServiceLevelAgreement serviceLevelAgreement) {
 		this.serviceLevelAgreement = serviceLevelAgreement;
@@ -78,11 +78,11 @@ public class CostEvaluationMetricListener implements ICurrentCostEvaluator {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see pl.edu.agh.samm.api.metrics.IMetricListener#notifyMetricValue(pl
-	 * .edu.agh.samm.api.metrics.IMetric, java.lang.Number)
+	 * @see pl.edu.agh.samm.common.metrics.IMetricListener#notifyMetricValue(pl
+	 * .edu.agh.samm.common.metrics.IConfiguredMetric, java.lang.Number)
 	 */
 	@Override
-	public void notifyMetricValue(IMetric metric, Number value) {
+	public void notifyMetricValue(IConfiguredMetric metric, Number value) {
 		if (serviceLevelAgreement != null) {
 			String metricURI = metric.getMetricURI();
 			String resourceURI = metric.getResourceURI();

@@ -17,7 +17,7 @@
 
 package pl.edu.agh.samm.metrics;
 
-import pl.edu.agh.samm.api.metrics.IMetric;
+import pl.edu.agh.samm.common.metrics.IConfiguredMetric;
 
 /**
  * @author Pawel Koperek <pkoperek@gmail.com>
@@ -26,10 +26,10 @@ import pl.edu.agh.samm.api.metrics.IMetric;
  */
 public class MetricWithCorrelation implements Comparable<MetricWithCorrelation> {
 
-	private IMetric metric;
-	private IMetric correlatingMetric;
+	private IConfiguredMetric metric;
+	private IConfiguredMetric correlatingMetric;
 
-	public MetricWithCorrelation(IMetric metric, IMetric correlatingMetric,
+	public MetricWithCorrelation(IConfiguredMetric metric, IConfiguredMetric correlatingMetric,
 			double correlation) {
 		this.metric = metric;
 		this.correlatingMetric = correlatingMetric;
@@ -38,11 +38,11 @@ public class MetricWithCorrelation implements Comparable<MetricWithCorrelation> 
 
 	double correlation;
 
-	public IMetric getMetric() {
+	public IConfiguredMetric getMetric() {
 		return metric;
 	}
 
-	public IMetric getCorrelatingMetric() {
+	public IConfiguredMetric getCorrelatingMetric() {
 		return correlatingMetric;
 	}
 

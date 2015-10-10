@@ -17,7 +17,7 @@
 
 package pl.edu.agh.samm.sla;
 
-import pl.edu.agh.samm.api.sla.IServiceLevelAgreement;
+import pl.edu.agh.samm.common.decision.IServiceLevelAgreement;
 import pl.edu.agh.samm.metrics.ICriteriaValidator;
 
 /**

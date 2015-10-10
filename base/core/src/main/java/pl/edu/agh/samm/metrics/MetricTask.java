@@ -28,10 +28,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pl.edu.agh.samm.api.core.Resource;
-import pl.edu.agh.samm.api.metrics.IMetric;
-import pl.edu.agh.samm.api.metrics.IMetricListener;
-import pl.edu.agh.samm.api.tadapter.ITransportAdapter;
+import pl.edu.agh.samm.common.core.Resource;
+import pl.edu.agh.samm.common.metrics.IConfiguredMetric;
+import pl.edu.agh.samm.common.metrics.IMetricListener;
+import pl.edu.agh.samm.common.tadapter.ITransportAdapter;
 
 /**
  * @author Pawel Koperek <pkoperek@gmail.com>
@@ -45,13 +45,13 @@ public abstract class MetricTask implements Runnable {
 	private List<ClassLoader> metricListenersClassLoaders = new CopyOnWriteArrayList<ClassLoader>();
 	private Resource resource = null;
 	private List<String> usedCapabilities = null;
-	protected IMetric metric = null;
+	protected IConfiguredMetric metric = null;
 	private List<ITransportAdapter> adapters = null;
 	private Map<String, ITransportAdapter> adaptersToUseForCapabilities = new HashMap<String, ITransportAdapter>();
 	private Map<String, Number> values = new HashMap<String, Number>();
 	private IMetricProblemObserver problemObserver;
 
-	public MetricTask(IMetric metric, List<String> usedCapabilities, Resource resource) {
+	public MetricTask(IConfiguredMetric metric, List<String> usedCapabilities, Resource resource) {
 		this.usedCapabilities = usedCapabilities;
 		this.resource = resource;
 		this.metric = metric;
@@ -68,7 +68,7 @@ public abstract class MetricTask implements Runnable {
 		metricListenersClassLoaders.add(Thread.currentThread().getContextClassLoader());
 	}
 
-	public IMetric getMetric() {
+	public IConfiguredMetric getMetric() {
 		return metric;
 	}
 

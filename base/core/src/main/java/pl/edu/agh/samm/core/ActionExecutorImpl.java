@@ -30,11 +30,11 @@ import java.util.concurrent.Executors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pl.edu.agh.samm.api.action.Action;
-import pl.edu.agh.samm.api.core.IActionExecutionListener;
-import pl.edu.agh.samm.api.db.IStorageService;
-import pl.edu.agh.samm.api.tadapter.ActionNotSupportedException;
-import pl.edu.agh.samm.api.tadapter.ITransportAdapter;
+import pl.edu.agh.samm.common.action.Action;
+import pl.edu.agh.samm.common.core.IActionExecutionListener;
+import pl.edu.agh.samm.common.db.IStorageService;
+import pl.edu.agh.samm.common.tadapter.ActionNotSupportedException;
+import pl.edu.agh.samm.common.tadapter.ITransportAdapter;
 
 /**
  * @author Pawel Koperek <pkoperek@gmail.com>
@@ -111,9 +111,7 @@ public class ActionExecutorImpl implements IActionExecutor {
 			logger.error("Error running action", e);
 		} catch (ActionNotSupportedException e) {
 			logger.error("Bad TransportAdapter action implementation", e);
-		} catch (Exception e) {
-            logger.error("Bad TransportAdapter action implementation - Exception", e);
-        }
+		}
 
 	}
 

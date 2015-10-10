@@ -31,12 +31,12 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pl.edu.agh.samm.api.action.Action;
-import pl.edu.agh.samm.api.core.IKnowledgeProvider;
-import pl.edu.agh.samm.api.sla.IServiceLevelAgreement;
-import pl.edu.agh.samm.api.estimation.IEstimator;
-import pl.edu.agh.samm.api.knowledge.IKnowledge;
-import pl.edu.agh.samm.api.metrics.ICustomMetric;
+import pl.edu.agh.samm.common.action.Action;
+import pl.edu.agh.samm.common.core.IKnowledgeProvider;
+import pl.edu.agh.samm.common.decision.IServiceLevelAgreement;
+import pl.edu.agh.samm.common.estimation.IEstimator;
+import pl.edu.agh.samm.common.knowledge.IKnowledge;
+import pl.edu.agh.samm.common.metrics.ICustomMetric;
 
 /**
  * @author Pawel Koperek <pkoperek@gmail.com>

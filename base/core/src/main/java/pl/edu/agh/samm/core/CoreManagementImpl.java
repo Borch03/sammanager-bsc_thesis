@@ -27,16 +27,24 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pl.edu.agh.samm.api.core.*;
-import pl.edu.agh.samm.api.sla.IServiceLevelAgreement;
-import pl.edu.agh.samm.api.impl.StringHelper;
-import pl.edu.agh.samm.api.metrics.IMetric;
-import pl.edu.agh.samm.api.metrics.IMetricListener;
-import pl.edu.agh.samm.api.metrics.IMetricsManagerListener;
-import pl.edu.agh.samm.api.metrics.MetricNotRunningException;
-import pl.edu.agh.samm.api.tadapter.IResourceDiscoveryEvent;
-import pl.edu.agh.samm.api.tadapter.IResourceDiscoveryListener;
-import pl.edu.agh.samm.api.tadapter.ResourceDiscoveryEventType;
+import pl.edu.agh.samm.common.core.IActionExecutionListener;
+import pl.edu.agh.samm.common.core.IAlarmListener;
+import pl.edu.agh.samm.common.core.ICoreManagement;
+import pl.edu.agh.samm.common.core.ILearningStageListener;
+import pl.edu.agh.samm.common.core.IResourceInstancesManager;
+import pl.edu.agh.samm.common.core.IResourceListener;
+import pl.edu.agh.samm.common.core.ResourceAlreadyRegisteredException;
+import pl.edu.agh.samm.common.core.ResourceNotRegisteredException;
+import pl.edu.agh.samm.common.core.SLAException;
+import pl.edu.agh.samm.common.decision.IServiceLevelAgreement;
+import pl.edu.agh.samm.common.impl.StringHelper;
+import pl.edu.agh.samm.common.metrics.IConfiguredMetric;
+import pl.edu.agh.samm.common.metrics.IMetricListener;
+import pl.edu.agh.samm.common.metrics.IMetricsManagerListener;
+import pl.edu.agh.samm.common.metrics.MetricNotRunningException;
+import pl.edu.agh.samm.common.tadapter.IResourceDiscoveryEvent;
+import pl.edu.agh.samm.common.tadapter.IResourceDiscoveryListener;
+import pl.edu.agh.samm.common.tadapter.ResourceDiscoveryEventType;
 import pl.edu.agh.samm.metrics.ICriteriaValidator;
 import pl.edu.agh.samm.metrics.IMetricsManager;
 import pl.edu.agh.samm.sla.ISLAValidator;
@@ -65,8 +73,6 @@ public class CoreManagementImpl implements IResourceDiscoveryListener, ICoreMana
 	private boolean slaValidationRunning = false;
 	private IDecisionMaker decisionMaker = null;
 	private IActionExecutor actionExecutor = null;
-    private IRuleProcessor ruleProcessor = null;
-    private RuleProcessorInputListener ruleProcessorInputListener = null;
 
 	/**
 	 * @return the actionExecutor
@@ -112,20 +118,6 @@ public class CoreManagementImpl implements IResourceDiscoveryListener, ICoreMana
 	public void setKnowledgeAlarmsMetricListener(ICriteriaValidator knowledgeAlarmsMetricListener) {
 		this.knowledgeAlarmsMetricListener = knowledgeAlarmsMetricListener;
 	}
-
-    /**
-     * @return the ruleProcessor
-     */
-    public IRuleProcessor getRuleProcessor() {
-        return ruleProcessor;
-    }
-
-    /**
-     * @param ruleProcessor the ruleProcessor to set
-     */
-    public void setRuleProcessor(IRuleProcessor ruleProcessor) {
-        this.ruleProcessor = ruleProcessor;
-    }
 
 	public IResourceDiscoveryAgent getResourceDiscoveryAgent() {
 		return resourceDiscoveryAgent;
@@ -197,8 +189,6 @@ public class CoreManagementImpl implements IResourceDiscoveryListener, ICoreMana
 	public void init() {
 		logger.info("Core Bean initialization");
 		this.resourceInstancesManager.addResourceListener(resourceDiscoveryAgent);
-        this.ruleProcessorInputListener = new RuleProcessorInputListener(ruleProcessor, runningMetricsManager);
-        this.ruleProcessorInputListener.enable();
 	}
 
 	/**
@@ -206,29 +196,28 @@ public class CoreManagementImpl implements IResourceDiscoveryListener, ICoreMana
 	 */
 	public void destroy() {
 		this.resourceInstancesManager.removeResourceListener(resourceDiscoveryAgent);
-        this.ruleProcessorInputListener.disable();
 		logger.info("Core Bean destroyed");
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see pl.edu.agh.samm.api.impl.core.ICoreManagement#startMetric(pl.edu
-	 * .agh. samm.api.metrics.IMetric)
+	 * @see pl.edu.agh.samm.common.impl.core.ICoreManagement#startMetric(pl.edu
+	 * .agh. samm.common.metrics.IConfiguredMetric)
 	 */
 	@Override
-	public void startMetric(IMetric runningMetric) {
+	public void startMetric(IConfiguredMetric runningMetric) {
 		this.runningMetricsManager.startMetric(runningMetric);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see pl.edu.agh.samm.api.impl.core.ICoreManagement#stopMetric(pl.edu.
-	 * agh.samm .api.metrics.IRunningMetric)
+	 * @see pl.edu.agh.samm.common.impl.core.ICoreManagement#stopMetric(pl.edu.
+	 * agh.samm .common.metrics.IRunningMetric)
 	 */
 	@Override
-	public void stopMetric(IMetric metric) {
+	public void stopMetric(IConfiguredMetric metric) {
 		this.runningMetricsManager.stopMetric(metric);
 	}
 
@@ -236,12 +225,12 @@ public class CoreManagementImpl implements IResourceDiscoveryListener, ICoreMana
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * pl.edu.agh.samm.api.impl.core.ICoreManagement#addRunningMetricListener
-	 * (pl.edu.agh.samm.api.impl.metrics.IMetric,
-	 * pl.edu.agh.samm.api.impl.metrics.IMetricListener)
+	 * pl.edu.agh.samm.common.impl.core.ICoreManagement#addRunningMetricListener
+	 * (pl.edu.agh.samm.common.impl.metrics.IMetric,
+	 * pl.edu.agh.samm.common.impl.metrics.IMetricListener)
 	 */
 	@Override
-	public void addRunningMetricListener(IMetric metric, IMetricListener listener)
+	public void addRunningMetricListener(IConfiguredMetric metric, IMetricListener listener)
 			throws MetricNotRunningException {
 		this.runningMetricsManager.addMetricListener(metric, listener);
 	}
@@ -249,9 +238,9 @@ public class CoreManagementImpl implements IResourceDiscoveryListener, ICoreMana
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @seepl.edu.agh.samm.api.core.ICoreManagement#
+	 * @seepl.edu.agh.samm.common.core.ICoreManagement#
 	 * addRunningMetricsManagerListener
-	 * (pl.edu.agh.samm.api.impl.metrics.IMetricsManagerListener)
+	 * (pl.edu.agh.samm.common.impl.metrics.IMetricsManagerListener)
 	 */
 	@Override
 	public void addRunningMetricsManagerListener(IMetricsManagerListener listener) {
@@ -261,21 +250,21 @@ public class CoreManagementImpl implements IResourceDiscoveryListener, ICoreMana
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @seepl.edu.agh.samm.api.impl.core.ICoreManagement#
-	 * removeRunningMetricListener (pl.edu.agh.samm.api.impl.metrics.IMetric,
-	 * pl.edu.agh.samm.api.impl.metrics.IMetricListener)
+	 * @seepl.edu.agh.samm.common.impl.core.ICoreManagement#
+	 * removeRunningMetricListener (pl.edu.agh.samm.common.impl.metrics.IMetric,
+	 * pl.edu.agh.samm.common.impl.metrics.IMetricListener)
 	 */
 	@Override
-	public void removeRunningMetricListener(IMetric metric, IMetricListener listener) {
+	public void removeRunningMetricListener(IConfiguredMetric metric, IMetricListener listener) {
 		this.runningMetricsManager.removeMetricListener(metric, listener);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @seepl.edu.agh.samm.api.core.ICoreManagement#
+	 * @seepl.edu.agh.samm.common.core.ICoreManagement#
 	 * removeRunningMetricsManagerListener
-	 * (pl.edu.agh.samm.api.impl.metrics.IMetricsManagerListener)
+	 * (pl.edu.agh.samm.common.impl.metrics.IMetricsManagerListener)
 	 */
 	@Override
 	public void removeRunningMetricsManagerListener(IMetricsManagerListener listener) {
@@ -285,12 +274,12 @@ public class CoreManagementImpl implements IResourceDiscoveryListener, ICoreMana
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @seepl.edu.agh.samm.api.core.ICoreManagement#
+	 * @seepl.edu.agh.samm.common.core.ICoreManagement#
 	 * startMetricAndAddRunningMetricListener
-	 * (pl.edu.agh.samm.api.impl.metrics.IMetric, java.util.Collection)
+	 * (pl.edu.agh.samm.common.impl.metrics.IMetric, java.util.Collection)
 	 */
 	@Override
-	public void startMetricAndAddRunningMetricListener(IMetric runningMetric,
+	public void startMetricAndAddRunningMetricListener(IConfiguredMetric runningMetric,
 			Collection<IMetricListener> listeners) {
 		this.runningMetricsManager.startMetricAndAddRunningMetricListener(runningMetric, listeners);
 	}
@@ -298,13 +287,13 @@ public class CoreManagementImpl implements IResourceDiscoveryListener, ICoreMana
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @seepl.edu.agh.samm.api.core.ICoreManagement#
+	 * @seepl.edu.agh.samm.common.core.ICoreManagement#
 	 * startMetricAndAddRunningMetricListener
-	 * (pl.edu.agh.samm.api.impl.metrics.IMetric,
-	 * pl.edu.agh.samm.api.impl.metrics.IMetricListener)
+	 * (pl.edu.agh.samm.common.impl.metrics.IMetric,
+	 * pl.edu.agh.samm.common.impl.metrics.IMetricListener)
 	 */
 	@Override
-	public void startMetricAndAddRunningMetricListener(IMetric runningMetric,
+	public void startMetricAndAddRunningMetricListener(IConfiguredMetric runningMetric,
 			IMetricListener listener) {
 		if (listener != null) {
 			Collection<IMetricListener> listeners = new LinkedList<IMetricListener>();
@@ -314,7 +303,7 @@ public class CoreManagementImpl implements IResourceDiscoveryListener, ICoreMana
 	}
 
 	@Override
-	public boolean isMetricRunning(IMetric metric) {
+	public boolean isMetricRunning(IConfiguredMetric metric) {
 		return runningMetricsManager.isMetricRunning(metric);
 	}
 
@@ -385,7 +374,7 @@ public class CoreManagementImpl implements IResourceDiscoveryListener, ICoreMana
 					List<String> metrics = serviceLevelAgreement.getMetricsForResource(pattern);
 
 					for (String metricURI : metrics) {
-						IMetric configuredMetric = this.createRunningMetricInstance(metricURI,
+						IConfiguredMetric configuredMetric = this.createRunningMetricInstance(metricURI,
 								resourceURI);
 						List<IMetricListener> listeners = new LinkedList<IMetricListener>();
 						listeners.add(currentCostEvaluator);
@@ -399,7 +388,7 @@ public class CoreManagementImpl implements IResourceDiscoveryListener, ICoreMana
 	}
 
 	@Override
-	public IMetric createRunningMetricInstance(String metricURI, String resourceURI) {
+	public IConfiguredMetric createRunningMetricInstance(String metricURI, String resourceURI) {
 		return metricFactory.createMetric(metricURI, resourceURI);
 	}
 
@@ -409,19 +398,21 @@ public class CoreManagementImpl implements IResourceDiscoveryListener, ICoreMana
 	}
 
 	@Override
-	public void updateMetricPollTimeInterval(IMetric metric) throws MetricNotRunningException {
+	public void updateMetricPollTimeInterval(IConfiguredMetric metric) throws MetricNotRunningException {
 		runningMetricsManager.updateMetricPollTime(metric);
 	}
 
-    @Override
-    public void addAlarmListener(IAlarmListener listener) {
-        this.ruleProcessor.addAlarmListener(listener);
-    }
+	@Override
+	public void addAlarmListener(IAlarmListener listener) {
+		knowledgeAlarmsMetricListener.addAlarmListener(listener);
+		slaValidator.addAlarmListener(listener);
+	}
 
-    @Override
-    public void removeAlarmListener(IAlarmListener listener) {
-        this.ruleProcessor.removeAlarmListener(listener);
-    }
+	@Override
+	public void removeAlarmListener(IAlarmListener listener) {
+		knowledgeAlarmsMetricListener.removeAlarmListener(listener);
+		slaValidator.removeAlarmListener(listener);
+	}
 
 	@Override
 	public void startSLAValidation(IServiceLevelAgreement serviceLevelAgreement) throws SLAException {
@@ -476,7 +467,7 @@ public class CoreManagementImpl implements IResourceDiscoveryListener, ICoreMana
 					List<String> metrics = serviceLevelAgreement.getMetricsForResource(pattern);
 
 					for (String metricURI : metrics) {
-						IMetric configuredMetric = this.createRunningMetricInstance(metricURI,
+						IConfiguredMetric configuredMetric = this.createRunningMetricInstance(metricURI,
 								resourceURI);
 						List<IMetricListener> listeners = new LinkedList<IMetricListener>();
 						listeners.add(currentCostEvaluator);
@@ -501,7 +492,7 @@ public class CoreManagementImpl implements IResourceDiscoveryListener, ICoreMana
 						continue;
 					}
 					for (String metricURI : metrics) {
-						IMetric configuredMetric = this.createRunningMetricInstance(metricURI,
+						IConfiguredMetric configuredMetric = this.createRunningMetricInstance(metricURI,
 								resourceURI);
 						this.runningMetricsManager.removeMetricListener(configuredMetric,
 								currentCostEvaluator);
@@ -580,25 +571,4 @@ public class CoreManagementImpl implements IResourceDiscoveryListener, ICoreMana
 	public void removeActionExecutorListener(IActionExecutionListener listener) {
 		this.actionExecutor.removeActionExecutorListener(listener);
 	}
-
-    @Override
-    public void addRule(Rule rule) {
-        ruleProcessor.addRule(rule);
-    }
-
-    @Override
-    public void clearRules() {
-        ruleProcessor.clearRules();
-    }
-
-    @Override
-    public void removeRule(String ruleName) {
-        ruleProcessor.removeRule(ruleName);
-    }
-
-    @Override
-    public void setActionGracePeriod(int gracePeriodInSeconds) {
-        // TODO Auto-generated method stub
-
-    }
 }

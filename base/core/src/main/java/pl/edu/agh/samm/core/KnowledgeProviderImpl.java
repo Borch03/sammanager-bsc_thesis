@@ -20,8 +20,8 @@ package pl.edu.agh.samm.core;
 import java.util.HashMap;
 import java.util.Map;
 
-import pl.edu.agh.samm.api.core.IKnowledgeProvider;
-import pl.edu.agh.samm.api.knowledge.IKnowledge;
+import pl.edu.agh.samm.common.core.IKnowledgeProvider;
+import pl.edu.agh.samm.common.knowledge.IKnowledge;
 
 /**
  * @author Pawel Koperek <pkoperek@gmail.com>

@@ -18,7 +18,6 @@
 package pl.edu.agh.samm.db.impl;
 
 import java.util.Collections;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -32,7 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public abstract class AbstractDao {
 
-	private static final String SQL_IDENTITY = "CALL IDENTITY()";
+	private static final String SQL_IDENTITY = "CALL IDENTITY();";
 
 	private SimpleJdbcTemplate simpleJdbcTemplate;
 
@@ -43,8 +42,7 @@ public abstract class AbstractDao {
 	 * @return
 	 */
 	protected Integer getLastId() {
-		Map<String, Object> emptyMap = Collections.emptyMap();
-		return simpleJdbcTemplate.queryForInt(SQL_IDENTITY, emptyMap);
+		return simpleJdbcTemplate.queryForInt(SQL_IDENTITY, Collections.emptyMap());
 	}
 
 	public void setDataSource(DataSource dataSource) {

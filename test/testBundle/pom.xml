@@ -26,12 +26,12 @@
         </dependency>
         <dependency>
             <groupId>pl.edu.agh.samm.base</groupId>
-            <artifactId>api</artifactId>
+            <artifactId>commons</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>pl.edu.agh.samm.base.transportadapters</groupId>
-            <artifactId>jmx_ta</artifactId>
+            <groupId>pl.edu.agh.samm.base.registries</groupId>
+            <artifactId>registryjmx</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

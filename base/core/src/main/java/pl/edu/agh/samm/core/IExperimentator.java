@@ -19,7 +19,7 @@ package pl.edu.agh.samm.core;
 
 import java.util.Map;
 
-import pl.edu.agh.samm.api.core.ILearningStageListener;
+import pl.edu.agh.samm.common.core.ILearningStageListener;
 
 /**
  * @author Pawel Koperek <pkoperek@gmail.com>

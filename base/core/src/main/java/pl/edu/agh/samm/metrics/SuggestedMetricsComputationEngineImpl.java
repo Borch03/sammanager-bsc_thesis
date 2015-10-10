@@ -32,9 +32,9 @@ import org.apache.commons.math.stat.correlation.PearsonsCorrelation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pl.edu.agh.samm.api.db.IStorageService;
-import pl.edu.agh.samm.api.impl.CombinationGenerator;
-import pl.edu.agh.samm.api.metrics.IMetric;
+import pl.edu.agh.samm.common.db.IStorageService;
+import pl.edu.agh.samm.common.impl.CombinationGenerator;
+import pl.edu.agh.samm.common.metrics.IConfiguredMetric;
 
 /**
  * @author Pawel Koperek <pkoperek@gmail.com>
@@ -47,8 +47,8 @@ public class SuggestedMetricsComputationEngineImpl implements ISuggestedMetricsC
 
 	private static final Logger log = LoggerFactory.getLogger(SuggestedMetricsComputationEngineImpl.class);
 
-	private Map<IMetric, Map<IMetric, Number>> suggestionCache = new HashMap<IMetric, Map<IMetric, Number>>();
-	private Map<IMetric, SortedSet<MetricWithCorrelation>> metricsWithCorrelation = new HashMap<IMetric, SortedSet<MetricWithCorrelation>>();
+	private Map<IConfiguredMetric, Map<IConfiguredMetric, Number>> suggestionCache = new HashMap<IConfiguredMetric, Map<IConfiguredMetric, Number>>();
+	private Map<IConfiguredMetric, SortedSet<MetricWithCorrelation>> metricsWithCorrelation = new HashMap<IConfiguredMetric, SortedSet<MetricWithCorrelation>>();
 
 	private ReadWriteLock cacheLock = new ReentrantReadWriteLock();
 
@@ -81,10 +81,10 @@ public class SuggestedMetricsComputationEngineImpl implements ISuggestedMetricsC
 	}
 
 	@Override
-	public Map<IMetric, Number> getMetricsSuggestedToStart(IMetric metric) {
+	public Map<IConfiguredMetric, Number> getMetricsSuggestedToStart(IConfiguredMetric metric) {
 		cacheLock.readLock().lock();
 		try {
-			Map<IMetric, Number> suggestion = suggestionCache.get(metric);
+			Map<IConfiguredMetric, Number> suggestion = suggestionCache.get(metric);
 			return suggestion;
 		} finally {
 			cacheLock.readLock().unlock();
@@ -96,9 +96,9 @@ public class SuggestedMetricsComputationEngineImpl implements ISuggestedMetricsC
 		try {
 			metricsWithCorrelation.clear();
 
-			List<IMetric> allMetrics = storageService.getAllKnownMetrics();
+			List<IConfiguredMetric> allMetrics = storageService.getAllKnownMetrics();
 
-			IMetric[] metrics = allMetrics.toArray(new IMetric[0]);
+			IConfiguredMetric[] metrics = allMetrics.toArray(new IConfiguredMetric[0]);
 
 			if (metrics.length < 2) {
 				return;
@@ -109,8 +109,8 @@ public class SuggestedMetricsComputationEngineImpl implements ISuggestedMetricsC
 				CombinationGenerator combinationGenerator = new CombinationGenerator(metrics.length, 2);
 				while (combinationGenerator.hasMore()) {
 					int[] combination = combinationGenerator.getNext();
-					IMetric metricOne = metrics[combination[0]];
-					IMetric metricTwo = metrics[combination[1]];
+					IConfiguredMetric metricOne = metrics[combination[0]];
+					IConfiguredMetric metricTwo = metrics[combination[1]];
 
 					// get historical data
 					List<Number> metricOneValues = storageService.getHistoricalMetricValues(
@@ -140,10 +140,10 @@ public class SuggestedMetricsComputationEngineImpl implements ISuggestedMetricsC
 		cacheLock.writeLock().lock();
 		try {
 			suggestionCache.clear();
-			for (IMetric metric : metricsWithCorrelation.keySet()) {
+			for (IConfiguredMetric metric : metricsWithCorrelation.keySet()) {
 				SortedSet<MetricWithCorrelation> suggestedMetricsWithCorrelation = metricsWithCorrelation
 						.get(metric);
-				Map<IMetric, Number> suggestion = new HashMap<IMetric, Number>();
+				Map<IConfiguredMetric, Number> suggestion = new HashMap<IConfiguredMetric, Number>();
 				for (MetricWithCorrelation suggestedMetric : suggestedMetricsWithCorrelation) {
 					suggestion.put(suggestedMetric.getCorrelatingMetric(), suggestedMetric.getCorrelation());
 				}
@@ -155,7 +155,7 @@ public class SuggestedMetricsComputationEngineImpl implements ISuggestedMetricsC
 
 	}
 
-	private void addCorrelation(IMetric metricOne, IMetric metricTwo, double correlation) {
+	private void addCorrelation(IConfiguredMetric metricOne, IConfiguredMetric metricTwo, double correlation) {
 		if (!metricsWithCorrelation.containsKey(metricOne)) {
 			metricsWithCorrelation.put(metricOne, new TreeSet<MetricWithCorrelation>());
 		}

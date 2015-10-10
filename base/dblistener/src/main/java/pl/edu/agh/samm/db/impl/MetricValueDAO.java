@@ -32,9 +32,9 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.springframework.jdbc.core.simple.ParameterizedSingleColumnRowMapper;
 
-import pl.edu.agh.samm.api.metrics.IMetric;
-import pl.edu.agh.samm.api.metrics.Metric;
-import pl.edu.agh.samm.api.metrics.MetricValue;
+import pl.edu.agh.samm.common.metrics.IConfiguredMetric;
+import pl.edu.agh.samm.common.metrics.MetricImpl;
+import pl.edu.agh.samm.common.metrics.MetricValue;
 
 /**
  * @author Pawel Koperek <pkoperek@gmail.com>
@@ -72,15 +72,15 @@ public class MetricValueDAO extends AbstractDao implements IMetricValueDAO {
 	}
 
 	@Override
-	public List<IMetric> getKnownMetrics() {
+	public List<IConfiguredMetric> getKnownMetrics() {
 		return getSimpleJdbcTemplate().query("SELECT DISTINCT metric_uri, resource_uri FROM metric_value",
-				new ParameterizedRowMapper<IMetric>() {
+				new ParameterizedRowMapper<IConfiguredMetric>() {
 
 					@Override
-					public IMetric mapRow(ResultSet rs, int arg1) throws SQLException {
+					public IConfiguredMetric mapRow(ResultSet rs, int arg1) throws SQLException {
 						final String metricUri = rs.getString("metric_uri");
 						final String resourceUri = rs.getString("resource_uri");
-						return new Metric(metricUri, resourceUri);
+						return new MetricImpl(metricUri, resourceUri);
 					};
 				}, Collections.emptyMap());
 	}

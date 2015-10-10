@@ -35,16 +35,16 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pl.edu.agh.samm.api.action.Action;
-import pl.edu.agh.samm.api.action.ActionExecution;
-import pl.edu.agh.samm.api.core.ILearningStageListener;
-import pl.edu.agh.samm.api.core.IResourceEvent;
-import pl.edu.agh.samm.api.core.IResourceListener;
-import pl.edu.agh.samm.api.core.Resource;
-import pl.edu.agh.samm.api.db.IStorageService;
-import pl.edu.agh.samm.api.knowledge.IKnowledge;
-import pl.edu.agh.samm.api.metrics.IMetric;
-import pl.edu.agh.samm.api.metrics.ResourceEventType;
+import pl.edu.agh.samm.common.action.Action;
+import pl.edu.agh.samm.common.action.ActionExecution;
+import pl.edu.agh.samm.common.core.ILearningStageListener;
+import pl.edu.agh.samm.common.core.IResourceEvent;
+import pl.edu.agh.samm.common.core.IResourceListener;
+import pl.edu.agh.samm.common.core.Resource;
+import pl.edu.agh.samm.common.db.IStorageService;
+import pl.edu.agh.samm.common.knowledge.IKnowledge;
+import pl.edu.agh.samm.common.metrics.IConfiguredMetric;
+import pl.edu.agh.samm.common.metrics.ResourceEventType;
 import pl.edu.agh.samm.metrics.IMetricsManager;
 
 /**
@@ -94,7 +94,7 @@ public class ExperimentatiorImpl extends CommonActionOperations implements IExpe
 		executor.scheduleWithFixedDelay(this, 0, CONSEQUENCES_RECOMPUTATION_DELAY, TimeUnit.SECONDS);
 	}
 
-	private Set<IMetric> metrics = Collections.synchronizedSet(new HashSet<IMetric>());
+	private Set<IConfiguredMetric> metrics = Collections.synchronizedSet(new HashSet<IConfiguredMetric>());
 
 	/*
 	 * (non-Javadoc)
@@ -228,9 +228,9 @@ public class ExperimentatiorImpl extends CommonActionOperations implements IExpe
 	}
 
 	private void stopAllMetrics() {
-		Iterator<IMetric> iterator = metrics.iterator();
+		Iterator<IConfiguredMetric> iterator = metrics.iterator();
 		while (iterator.hasNext()) {
-			IMetric metric = iterator.next();
+			IConfiguredMetric metric = iterator.next();
 			runningMetricsManager.stopMetric(metric);
 			iterator.remove();
 		}
@@ -247,7 +247,7 @@ public class ExperimentatiorImpl extends CommonActionOperations implements IExpe
 		Set<String> metricsToStart = knowledge.getMetricsForResourceType(resourceInstancesManager
 				.getResourceType(resource));
 		for (String metricUri : metricsToStart) {
-			IMetric metric = metricFactory.createMetric(metricUri, resource);
+			IConfiguredMetric metric = metricFactory.createMetric(metricUri, resource);
 			try {
 				runningMetricsManager.startMetric(metric);
 				metrics.add(metric);

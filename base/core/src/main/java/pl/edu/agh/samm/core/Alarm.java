@@ -22,8 +22,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import pl.edu.agh.samm.api.core.IAlarm;
-import pl.edu.agh.samm.api.metrics.IMetric;
+import pl.edu.agh.samm.common.core.IAlarm;
+import pl.edu.agh.samm.common.metrics.IConfiguredMetric;
 
 /**
  * @author Pawel Koperek <pkoperek@gmail.com>
@@ -32,11 +32,11 @@ import pl.edu.agh.samm.api.metrics.IMetric;
  */
 public class Alarm implements IAlarm, Serializable {
 	private static final long serialVersionUID = 3815913955406226979L;
-	private IMetric metric;
+	private IConfiguredMetric metric;
 	private String description;
-	private Map<IMetric, Number> ranks;
+	private Map<IConfiguredMetric, Number> ranks;
 
-	public Alarm(IMetric metric, Map<IMetric, Number> ranks, String description) {
+	public Alarm(IConfiguredMetric metric, Map<IConfiguredMetric, Number> ranks, String description) {
 		this.metric = metric;
 		this.description = description;
 		this.ranks = ranks;
@@ -46,7 +46,7 @@ public class Alarm implements IAlarm, Serializable {
 	 * @return the metric
 	 */
 	@Override
-	public IMetric getMetric() {
+	public IConfiguredMetric getMetric() {
 		return metric;
 	}
 
@@ -54,8 +54,8 @@ public class Alarm implements IAlarm, Serializable {
 	 * @return the metricsToStart
 	 */
 	@Override
-	public List<IMetric> getMetricsToStart() {
-		return new LinkedList<IMetric>(ranks.keySet());
+	public List<IConfiguredMetric> getMetricsToStart() {
+		return new LinkedList<IConfiguredMetric>(ranks.keySet());
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class Alarm implements IAlarm, Serializable {
 	}
 
 	@Override
-	public Number getSuggestedMetricRank(IMetric suggestedMetric) {
+	public Number getSuggestedMetricRank(IConfiguredMetric suggestedMetric) {
 		return ranks.get(suggestedMetric);
 	}
 

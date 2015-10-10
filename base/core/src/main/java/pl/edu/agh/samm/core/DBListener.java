@@ -23,14 +23,14 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pl.edu.agh.samm.api.core.ICoreManagement;
-import pl.edu.agh.samm.api.db.IStorageService;
-import pl.edu.agh.samm.api.metrics.IMetric;
-import pl.edu.agh.samm.api.metrics.IMetricListener;
-import pl.edu.agh.samm.api.metrics.IMetricsManagerListener;
-import pl.edu.agh.samm.api.metrics.MetricNotRunningException;
-import pl.edu.agh.samm.api.tadapter.ICapabilityEvent;
-import pl.edu.agh.samm.api.tadapter.IMeasurementListener;
+import pl.edu.agh.samm.common.core.ICoreManagement;
+import pl.edu.agh.samm.common.db.IStorageService;
+import pl.edu.agh.samm.common.metrics.IConfiguredMetric;
+import pl.edu.agh.samm.common.metrics.IMetricListener;
+import pl.edu.agh.samm.common.metrics.IMetricsManagerListener;
+import pl.edu.agh.samm.common.metrics.MetricNotRunningException;
+import pl.edu.agh.samm.common.tadapter.ICapabilityEvent;
+import pl.edu.agh.samm.common.tadapter.IMeasurementListener;
 
 /**
  * @author Pawel Koperek <pkoperek@gmail.com>
@@ -63,21 +63,21 @@ public class DBListener implements IMeasurementListener, IMetricListener, IMetri
 	}
 
 	@Override
-	public void notifyMetricValue(IMetric metric, Number value) throws Exception {
+	public void notifyMetricValue(IConfiguredMetric metric, Number value) throws Exception {
 		storageService.storeMetricValue(metric, value);
 	}
 
 	@Override
-	public void notifyMetricsHasStopped(Collection<IMetric> stoppedMetrics) {
+	public void notifyMetricsHasStopped(Collection<IConfiguredMetric> stoppedMetrics) {
 
-		for (IMetric metric : stoppedMetrics) {
+		for (IConfiguredMetric metric : stoppedMetrics) {
 			coreManagement.removeRunningMetricListener(metric, this);
 		}
 	}
 
 	@Override
-	public void notifyNewMetricsStarted(Collection<IMetric> startedMetrics) {
-		for (IMetric metric : startedMetrics) {
+	public void notifyNewMetricsStarted(Collection<IConfiguredMetric> startedMetrics) {
+		for (IConfiguredMetric metric : startedMetrics) {
 			try {
 				coreManagement.addRunningMetricListener(metric, this);
 			} catch (MetricNotRunningException e) {

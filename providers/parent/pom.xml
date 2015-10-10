@@ -18,6 +18,7 @@
         <module>../esper</module>
         <module>../weka</module>
         <module>../awssdk</module>
+        <module>../pellet</module>
     </modules>
 
 </project>

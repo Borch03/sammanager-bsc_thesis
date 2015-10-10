@@ -27,11 +27,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pl.edu.agh.samm.api.core.IAlarm;
-import pl.edu.agh.samm.api.core.IAlarmListener;
-import pl.edu.agh.samm.api.knowledge.ICriterion;
-import pl.edu.agh.samm.api.knowledge.IKnowledge;
-import pl.edu.agh.samm.api.metrics.IMetric;
+import pl.edu.agh.samm.common.core.IAlarm;
+import pl.edu.agh.samm.common.core.IAlarmListener;
+import pl.edu.agh.samm.common.knowledge.ICriterion;
+import pl.edu.agh.samm.common.knowledge.IKnowledge;
+import pl.edu.agh.samm.common.metrics.IConfiguredMetric;
 
 /**
  * @author Pawel Koperek <pkoperek@gmail.com>
@@ -62,7 +62,7 @@ public abstract class AbstractCriteriaValidator implements ICriteriaValidator {
 	 * (non-Javadoc)
 	 * 
 	 * @see pl.edu.agh.samm.metrics.ICriteriaValidator#addAlarmListener(pl.edu.
-	 * agh.samm.api.core.IAlarmListener)
+	 * agh.samm.common.core.IAlarmListener)
 	 */
 	@Override
 	public void addAlarmListener(IAlarmListener listener) {
@@ -74,7 +74,7 @@ public abstract class AbstractCriteriaValidator implements ICriteriaValidator {
 	 * 
 	 * @see
 	 * pl.edu.agh.samm.metrics.ICriteriaValidator#removeAlarmListener(pl.edu
-	 * .agh.samm.api.core.IAlarmListener)
+	 * .agh.samm.common.core.IAlarmListener)
 	 */
 	@Override
 	public void removeAlarmListener(IAlarmListener listener) {
@@ -109,11 +109,11 @@ public abstract class AbstractCriteriaValidator implements ICriteriaValidator {
 		this.suggestedMetricsComputationEngine = suggestedMetricsComputationEngine;
 	}
 
-	protected Map<IMetric, Number> getMetricsSuggestedToStart(IMetric metric) {
+	protected Map<IConfiguredMetric, Number> getMetricsSuggestedToStart(IConfiguredMetric metric) {
 		return this.suggestedMetricsComputationEngine.getMetricsSuggestedToStart(metric);
 	}
 
-	protected String getDescriptionForAlarm(IMetric metric, ICriterion criterion) {
+	protected String getDescriptionForAlarm(IConfiguredMetric metric, ICriterion criterion) {
 		return "The value of metric: " + metric.getMetricURI() + " observed on: " + metric.getResourceURI()
 				+ " violates the criterion:\n" + criterion.toString();
 	}

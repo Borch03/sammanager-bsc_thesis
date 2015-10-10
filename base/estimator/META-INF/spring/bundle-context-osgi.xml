@@ -23,9 +23,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
                       http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd">
 
-	<osgi:service interface="pl.edu.agh.samm.api.estimation.IEstimator"
+	<osgi:service interface="pl.edu.agh.samm.common.estimation.IEstimator"
 		ref="estimator" context-class-loader="service-provider" />
 		
-	<osgi:reference interface="pl.edu.agh.samm.api.db.IStorageService" id="storageService">
+	<osgi:reference interface="pl.edu.agh.samm.common.db.IStorageService" id="storageService">
 	</osgi:reference>
 </beans>

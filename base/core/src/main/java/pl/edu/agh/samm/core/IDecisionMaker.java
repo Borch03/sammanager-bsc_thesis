@@ -17,7 +17,7 @@
 
 package pl.edu.agh.samm.core;
 
-import pl.edu.agh.samm.api.sla.IServiceLevelAgreement;
+import pl.edu.agh.samm.common.decision.IServiceLevelAgreement;
 
 /**
  * Makes decision on what to do with the system

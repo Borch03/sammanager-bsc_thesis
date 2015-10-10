@@ -19,7 +19,7 @@ package pl.edu.agh.samm.metrics;
 
 import java.util.Map;
 
-import pl.edu.agh.samm.api.metrics.IMetric;
+import pl.edu.agh.samm.common.metrics.IConfiguredMetric;
 
 /**
  * @author Pawel Koperek <pkoperek@gmail.com>
@@ -27,5 +27,5 @@ import pl.edu.agh.samm.api.metrics.IMetric;
  * 
  */
 public interface ISuggestedMetricsComputationEngine {
-	Map<IMetric, Number> getMetricsSuggestedToStart(IMetric metric);
+	Map<IConfiguredMetric, Number> getMetricsSuggestedToStart(IConfiguredMetric metric);
 }

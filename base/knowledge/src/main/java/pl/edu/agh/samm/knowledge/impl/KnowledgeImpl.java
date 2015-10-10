@@ -22,9 +22,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import pl.edu.agh.samm.api.core.IResourceListener;
-import pl.edu.agh.samm.api.knowledge.ICriterion;
-import pl.edu.agh.samm.api.knowledge.IKnowledge;
+import pl.edu.agh.samm.common.core.IResourceListener;
+import pl.edu.agh.samm.common.knowledge.ICriterion;
+import pl.edu.agh.samm.common.knowledge.IKnowledge;
 import pl.edu.agh.samm.knowledge.IOntModelProvider;
 
 import com.hp.hpl.jena.ontology.Individual;
@@ -74,12 +74,10 @@ public class KnowledgeImpl implements IKnowledge {
 
 	@Override
 	public List<String> getCapabilitiesOfResourceType(String type) {
-		return selectObjectsForPropertyOfSubject(type, getOntologyURI()
-				+ "#hasResourceTypeCapability");
+		return selectObjectsForPropertyOfSubject(type, getOntologyURI() + "#hasResourceTypeCapability");
 	}
 
-	private List<String> selectObjectsForPropertyOfSubject(String subject,
-			String property) {
+	private List<String> selectObjectsForPropertyOfSubject(String subject, String property) {
 		List<String> retVal = new LinkedList<String>();
 		OntModel model = ontModelProvider.getOntModel();
 
@@ -87,27 +85,18 @@ public class KnowledgeImpl implements IKnowledge {
 
 		Individual individual = model.getIndividual(subject);
 
-		if (individual == null) {
-			throw new RuntimeException(
-					"No individual found in ontology for subject: '" + subject
-							+ "'!");
-		}
-
-		StmtIterator statementIterator = model
-				.listStatements(new SimpleSelector(individual,
-						propertyInstance, (Object) null));
+		StmtIterator statementIterator = model.listStatements(new SimpleSelector(individual,
+				propertyInstance, (Object) null));
 
 		while (statementIterator.hasNext()) {
-			String resourceTypeURI = statementIterator.nextStatement()
-					.getObject().asNode().getURI();
+			String resourceTypeURI = statementIterator.nextStatement().getObject().asNode().getURI();
 			retVal.add(resourceTypeURI);
 		}
 
 		return retVal;
 	}
 
-	private List<String> selectObjectsForStringPropertyOfSubject(
-			String subject, String property) {
+	private List<String> selectObjectsForStringPropertyOfSubject(String subject, String property) {
 		List<String> retVal = new LinkedList<String>();
 		OntModel model = ontModelProvider.getOntModel();
 
@@ -115,13 +104,12 @@ public class KnowledgeImpl implements IKnowledge {
 
 		Individual individual = model.getIndividual(subject);
 
-		StmtIterator statementIterator = model
-				.listStatements(new SimpleSelector(individual,
-						propertyInstance, (Object) null));
+		StmtIterator statementIterator = model.listStatements(new SimpleSelector(individual,
+				propertyInstance, (Object) null));
 
 		while (statementIterator.hasNext()) {
-			String resourceTypeURI = statementIterator.nextStatement()
-					.getObject().asNode().getLiteralLexicalForm();
+			String resourceTypeURI = statementIterator.nextStatement().getObject().asNode()
+					.getLiteralLexicalForm();
 			retVal.add(resourceTypeURI);
 		}
 
@@ -130,30 +118,28 @@ public class KnowledgeImpl implements IKnowledge {
 
 	@Override
 	public List<String> getUsedCapabilities(String metricURI) {
-		return selectObjectsForPropertyOfSubject(metricURI, getOntologyURI()
-				+ "#usesTypeCapability");
+		return selectObjectsForPropertyOfSubject(metricURI, getOntologyURI() + "#usesTypeCapability");
 	}
 
 	@Override
 	public List<String> getChildrenResourceTypes(String type) {
-		return selectObjectsForPropertyOfSubject(type, getOntologyURI()
-				+ "#hasChildResourceOfType");
+		return selectObjectsForPropertyOfSubject(type, getOntologyURI() + "#hasChildResourceOfType");
 	}
 
 	@Override
 	public String getClassNameForCustomMetric(String uri) {
 		// there should be only one class ... in case there are more - we take
 		// the first one ;)
-		List<String> clazz = selectObjectsForStringPropertyOfSubject(uri,
-				getOntologyURI() + "#hasCustomClass");
+		List<String> clazz = selectObjectsForStringPropertyOfSubject(uri, getOntologyURI()
+				+ "#hasCustomClass");
 
 		return clazz.get(0);
 	}
 
 	@Override
 	public boolean isCustomMetric(String uri) {
-		List<String> classes = selectObjectsForStringPropertyOfSubject(uri,
-				getOntologyURI() + "#hasCustomClass");
+		List<String> classes = selectObjectsForStringPropertyOfSubject(uri, getOntologyURI()
+				+ "#hasCustomClass");
 
 		return classes.size() > 0;
 	}
@@ -167,22 +153,20 @@ public class KnowledgeImpl implements IKnowledge {
 	public Set<String> getMetricsForResourceType(String type) {
 		Set<String> capabilities = new HashSet<String>();
 
-		capabilities.addAll(selectObjectsForPropertyOfSubject(type,
-				getOntologyURI() + "#hasResourceTypeCapability"));
+		capabilities.addAll(selectObjectsForPropertyOfSubject(type, getOntologyURI()
+				+ "#hasResourceTypeCapability"));
 
 		return getMetricsUsingCapabilitiesForResourceType(type, capabilities);
 	}
 
 	@Override
-	public Set<String> getMetricsUsingCapabilitiesForResourceType(
-			String resourceType, Set<String> capabilities) {
-		String capabilityIsUsedBy = getOntologyURI()
-				+ "#typeCapabilityIsUsedBy";
+	public Set<String> getMetricsUsingCapabilitiesForResourceType(String resourceType,
+			Set<String> capabilities) {
+		String capabilityIsUsedBy = getOntologyURI() + "#typeCapabilityIsUsedBy";
 
 		Set<String> allMetrics = new HashSet<String>();
 		for (String capability : capabilities) {
-			List<String> metrics = selectObjectsForPropertyOfSubject(
-					capability, capabilityIsUsedBy);
+			List<String> metrics = selectObjectsForPropertyOfSubject(capability, capabilityIsUsedBy);
 			allMetrics.addAll(metrics);
 		}
 
@@ -199,6 +183,11 @@ public class KnowledgeImpl implements IKnowledge {
 	}
 
 	@Override
+	public ICriterion getMetricValueAcceptationCriterion(String metricURI) {
+		throw new RuntimeException("Not implemented!");
+	}
+
+	@Override
 	public List<String> getMetricsWithDefinedLimits() {
 		throw new RuntimeException("Not implemented!");
 	}
@@ -210,15 +199,15 @@ public class KnowledgeImpl implements IKnowledge {
 
 	@Override
 	public String getParameterType(String parameterURI) {
-		List<String> ret = selectObjectsForPropertyOfSubject(parameterURI,
-				getOntologyURI() + "#hasActionParameterType");
+		List<String> ret = selectObjectsForPropertyOfSubject(parameterURI, getOntologyURI()
+				+ "#hasActionParameterType");
 		return ret.get(0);
 	}
 
 	@Override
 	public List<String> getParametersOfAction(String actionURI) {
-		List<String> ret = selectObjectsForPropertyOfSubject(actionURI,
-				getOntologyURI() + "#hasActionParameter");
+		List<String> ret = selectObjectsForPropertyOfSubject(actionURI, getOntologyURI()
+				+ "#hasActionParameter");
 		return ret;
 	}
 
@@ -233,10 +222,5 @@ public class KnowledgeImpl implements IKnowledge {
 		}
 		return instances;
 	}
-
-    @Override
-    public ICriterion getMetricValueAcceptationCriterion(String metricURI) {
-        throw new RuntimeException("Not implemented!");
-    }
 
 }

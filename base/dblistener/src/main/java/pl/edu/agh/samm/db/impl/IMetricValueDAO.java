@@ -19,8 +19,8 @@ package pl.edu.agh.samm.db.impl;
 
 import java.util.List;
 
-import pl.edu.agh.samm.api.metrics.IMetric;
-import pl.edu.agh.samm.api.metrics.MetricValue;
+import pl.edu.agh.samm.common.metrics.IConfiguredMetric;
+import pl.edu.agh.samm.common.metrics.MetricValue;
 
 /**
  * @author Pawel Koperek <pkoperek@gmail.com>
@@ -32,5 +32,5 @@ public interface IMetricValueDAO {
 
 	List<Number> loadValues(String metricURI, String resourceURI);
 
-	List<IMetric> getKnownMetrics();
+	List<IConfiguredMetric> getKnownMetrics();
 }

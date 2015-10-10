@@ -22,11 +22,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import pl.edu.agh.samm.api.core.IAlarm;
-import pl.edu.agh.samm.api.core.IResourceInstancesManager;
-import pl.edu.agh.samm.api.sla.IServiceLevelAgreement;
-import pl.edu.agh.samm.api.knowledge.ICriterion;
-import pl.edu.agh.samm.api.metrics.IMetric;
+import pl.edu.agh.samm.common.core.IAlarm;
+import pl.edu.agh.samm.common.core.IResourceInstancesManager;
+import pl.edu.agh.samm.common.decision.IServiceLevelAgreement;
+import pl.edu.agh.samm.common.knowledge.ICriterion;
+import pl.edu.agh.samm.common.metrics.IConfiguredMetric;
 import pl.edu.agh.samm.core.Alarm;
 import pl.edu.agh.samm.core.IMetricFactory;
 import pl.edu.agh.samm.metrics.AbstractCriteriaValidator;
@@ -38,7 +38,7 @@ import pl.edu.agh.samm.metrics.AbstractCriteriaValidator;
  */
 public class SLAValidatingMetricListener extends AbstractCriteriaValidator implements ISLAValidator {
 
-	private Map<IMetric, ICriterion> criteria = new HashMap<IMetric, ICriterion>();
+	private Map<IConfiguredMetric, ICriterion> criteria = new HashMap<IConfiguredMetric, ICriterion>();
 	private IServiceLevelAgreement agreement = null;
 	private IMetricFactory metricFactory = null;
 	private IResourceInstancesManager resourceInstancesManager = null;
@@ -60,7 +60,7 @@ public class SLAValidatingMetricListener extends AbstractCriteriaValidator imple
 	}
 
 	@Override
-	public void notifyMetricValue(IMetric metric, Number value) {
+	public void notifyMetricValue(IConfiguredMetric metric, Number value) {
 		if (criteria.containsKey(metric)) {
 			ICriterion criterion = criteria.get(metric);
 
@@ -69,7 +69,7 @@ public class SLAValidatingMetricListener extends AbstractCriteriaValidator imple
 			}
 
 			if (!criterion.meetsCriterion(value)) {
-				Map<IMetric, Number> metricsWithRanks = getMetricsSuggestedToStart(metric);
+				Map<IConfiguredMetric, Number> metricsWithRanks = getMetricsSuggestedToStart(metric);
 
 				IAlarm alarm = new Alarm(metric, metricsWithRanks, getDescriptionForAlarm(metric, criterion));
 				fireAlarm(alarm);
@@ -94,7 +94,7 @@ public class SLAValidatingMetricListener extends AbstractCriteriaValidator imple
 						}
 						for (String metricURI : resourceMetrics) {
 							// create configured metric instance
-							IMetric configuredMetric = metricFactory.createMetric(metricURI,
+							IConfiguredMetric configuredMetric = metricFactory.createMetric(metricURI,
 									resourceURI);
 
 							// get threshold

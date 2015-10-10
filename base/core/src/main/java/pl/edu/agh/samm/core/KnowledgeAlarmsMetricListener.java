@@ -21,10 +21,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import pl.edu.agh.samm.api.core.IKnowledgeProvider;
-import pl.edu.agh.samm.api.knowledge.ICriterion;
-import pl.edu.agh.samm.api.knowledge.IKnowledge;
-import pl.edu.agh.samm.api.metrics.IMetric;
+import pl.edu.agh.samm.common.core.IKnowledgeProvider;
+import pl.edu.agh.samm.common.knowledge.ICriterion;
+import pl.edu.agh.samm.common.knowledge.IKnowledge;
+import pl.edu.agh.samm.common.metrics.IConfiguredMetric;
 import pl.edu.agh.samm.metrics.AbstractCriteriaValidator;
 
 /**
@@ -64,12 +64,12 @@ public class KnowledgeAlarmsMetricListener extends AbstractCriteriaValidator {
 	}
 
 	@Override
-	public void notifyMetricValue(IMetric metric, Number value) throws Exception {
+	public void notifyMetricValue(IConfiguredMetric metric, Number value) throws Exception {
 		if (acceptationCriteria.containsKey(metric.getMetricURI())) {
 			ICriterion criterion = acceptationCriteria.get(metric.getMetricURI());
 
 			if (!criterion.meetsCriterion(value)) {
-				Map<IMetric, Number> metricsToStart = getMetricsSuggestedToStart(metric);
+				Map<IConfiguredMetric, Number> metricsToStart = getMetricsSuggestedToStart(metric);
 				Alarm alarm = new Alarm(metric, metricsToStart, getDescriptionForAlarm(metric, criterion));
 				fireAlarm(alarm);
 			}

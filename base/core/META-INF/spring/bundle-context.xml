@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-This file is part of SAMM.
+    This file is part of SAMM.
 
-SAMM is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    SAMM is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-SAMM is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+    SAMM is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with SAMM.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU General Public License
+    along with SAMM.  If not, see <http://www.gnu.org/licenses/>.
 
 -->
 
@@ -38,34 +38,23 @@ along with SAMM.  If not, see <http://www.gnu.org/licenses/>.
 		<property name="resourceDiscoveryAgent">
 			<ref bean="resourceDiscoveryAgent" />
 		</property>
-		<property name="actionExecutor" ref="ignoringActionExecutor" />
-		<property name="ruleProcessor" ref="esperRuleEngine" />
+		<property name="slaValidator" ref="slaValidator" />
+		<property name="metricFactory" ref="metricFactory" />
+		<property name="knowledgeAlarmsMetricListener" ref="knowledgeAlarmsMetricListener" />
+		<property name="currentCostEvaluator" ref="currentCostEvaluator" />
+		<property name="experimentator" ref="experimentator" />
+		<property name="decisionMaker" ref="decisionMaker" />
+		<property name="actionExecutor" ref="actionExecutor" />
 	</bean>
 
-	<!-- Rule engine and dependencies -->
-	<bean id="epServiceConfig" class="pl.edu.agh.samm.core.EsperRuleProcessor"
-		factory-method="getDefaultConfiguration"></bean>
-
-	<bean id="defaultEpService"
-		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod">
-			<value>com.espertech.esper.client.EPServiceProviderManager.getDefaultProvider</value>
-		</property>
-		<property name="arguments">
-			<ref bean="epServiceConfig" />
-		</property>
-
+	<!-- Listener for changes of knowledge sources set -->
+	<bean id="knowledgeProvider" class="pl.edu.agh.samm.core.KnowledgeProviderImpl">
 	</bean>
 
-	<bean id="esperRuleEngine" class="pl.edu.agh.samm.core.EsperRuleProcessor">
-		<property name="actionExecutor" ref="ignoringActionExecutor" />
-		<property name="epService" ref="defaultEpService" />
-	</bean>
-
-	<!-- Listener for changes of transport adapters set -->
+	<!-- Listener for changes of registries set -->
 	<bean id="transportAdapterListener" class="pl.edu.agh.samm.core.TransportAdapterListener">
 		<property name="registryListener" ref="coreManagementBean"></property>
-		<property name="measurementListener" ref="mmDBListener" />
+		<property name="measurementListener" ref="dbListener" />
 	</bean>
 
 	<!-- Running Metrics Manager -->
@@ -73,8 +62,8 @@ along with SAMM.  If not, see <http://www.gnu.org/licenses/>.
 		<property name="resourceInstancesManager">
 			<ref bean="resourceInstancesManager" />
 		</property>
-		<property name="knowledgeService">
-			<ref bean="knowledgeService" />
+		<property name="knowledgeProvider">
+			<ref bean="knowledgeProvider" />
 		</property>
 	</bean>
 
@@ -90,30 +79,81 @@ along with SAMM.  If not, see <http://www.gnu.org/licenses/>.
 		<property name="transportAdapters">
 			<ref bean="transportAdaptersSet" />
 		</property>
-		<property name="knowledgeService">
-			<ref bean="knowledgeService" />
+		<property name="knowledgeProvider">
+			<ref bean="knowledgeProvider" />
 		</property>
 	</bean>
 
-	<!-- DB Listeners -->
-	<bean id="mmDBListener" class="pl.edu.agh.samm.core.MeasurementMetricDBListener"
-		init-method="init">
+	<!-- Metric factory -->
+	<bean id="metricFactory" class="pl.edu.agh.samm.core.MetricFactoryImpl" />
+
+	<!-- Abstract Criteria validator -->
+	<bean id="abstractCriteriaValidator" abstract="true"
+		class="pl.edu.agh.samm.metrics.AbstractCriteriaValidator">
+		<property name="suggestedMetricsComputationEngine" ref="suggestedMetricComputationEngine" />
+	</bean>
+
+	<!-- Knowledge Alarms Metric Listener -->
+	<bean id="knowledgeAlarmsMetricListener" parent="abstractCriteriaValidator"
+		class="pl.edu.agh.samm.core.KnowledgeAlarmsMetricListener">
+		<property name="knowledgeProvider" ref="knowledgeProvider"></property>
+	</bean>
+
+	<!-- SLA Validator -->
+	<bean id="slaValidator" class="pl.edu.agh.samm.sla.SLAValidatingMetricListener"
+		parent="abstractCriteriaValidator">
+		<property name="metricFactory" ref="metricFactory" />
+		<property name="resourceInstancesManager" ref="resourceInstancesManager" />
+		<property name="suggestedMetricsComputationEngine" ref="suggestedMetricComputationEngine" />
+	</bean>
+
+	<!-- Suggested Metrics Computation Engine -->
+	<bean id="suggestedMetricComputationEngine"
+		class="pl.edu.agh.samm.metrics.SuggestedMetricsComputationEngineImpl"
+		init-method="init" destroy-method="destroy">
+		<property name="cacheRefreshRate">
+			<description>After how many minutes cache should be refreshed
+			</description>
+			<value>5</value>
+		</property>
+		<property name="storageService" ref="storageService" />
+	</bean>
+
+	<!-- DB Listener -->
+	<bean id="dbListener" class="pl.edu.agh.samm.core.DBListener" init-method="init">
 		<property name="coreManagement" ref="coreManagementBean" />
 		<property name="storageService" ref="storageService" />
 	</bean>
 
-	<bean id="actionExecutionDBListener" class="pl.edu.agh.samm.core.ActionExecutionDBListener"
-		init-method="init">
-		<property name="actionExecutor" ref="ignoringActionExecutor" />
+	<!-- Current cost evaluator - cost evaluation metric listener -->
+	<bean id="currentCostEvaluator" class="pl.edu.agh.samm.core.CostEvaluationMetricListener" init-method="init">
+	</bean>
+
+	<!-- ActionExecutor -->
+	<bean id="actionExecutor" class="pl.edu.agh.samm.core.ActionExecutorImpl">
 		<property name="storageService" ref="storageService" />
-	</bean>
-
-	<!-- ActionExecutors -->
-	<bean id="parallelActionExecutor" class="pl.edu.agh.samm.core.ParallelActionExecutorImpl">
 		<property name="transportAdapters" ref="transportAdaptersSet" />
 	</bean>
 
-	<bean id="ignoringActionExecutor" class="pl.edu.agh.samm.core.IgnoringActionExecutorDecorator">
-		<property name="transportAdapters" ref="transportAdaptersSet" />
+	<bean id="commonActionsOperations" class="pl.edu.agh.samm.core.CommonActionOperations"
+		abstract="true">
+		<property name="knowledgeProvider" ref="knowledgeProvider" />
+		<property name="resourceInstancesManager" ref="resourceInstancesManager" />
 	</bean>
+
+	<bean id="experimentator" class="pl.edu.agh.samm.core.ExperimentatiorImpl"
+		parent="commonActionsOperations" init-method="init">
+		<property name="actionExecutor" ref="actionExecutor" />
+		<property name="storageService" ref="storageService" />
+		<property name="metricFactory" ref="metricFactory" />
+		<property name="runningMetricsManager" ref="runningMetricsManager" />
+	</bean>
+
+	<bean id="decisionMaker" class="pl.edu.agh.samm.core.DecisionMakerImpl"
+		parent="commonActionsOperations" init-method="init">
+		<property name="actionExecutor" ref="actionExecutor" />
+		<property name="experimentator" ref="experimentator" />
+		<property name="estimator" ref="estimator" />
+	</bean>
+
 </beans>

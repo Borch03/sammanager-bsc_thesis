@@ -17,8 +17,8 @@
 
 package pl.edu.agh.samm.metrics;
 
-import pl.edu.agh.samm.api.core.IAlarmListener;
-import pl.edu.agh.samm.api.metrics.IMetricListener;
+import pl.edu.agh.samm.common.core.IAlarmListener;
+import pl.edu.agh.samm.common.metrics.IMetricListener;
 
 /**
  * @author Pawel Koperek <pkoperek@gmail.com>

@@ -17,7 +17,7 @@
 
 package pl.edu.agh.samm.core;
 
-import pl.edu.agh.samm.api.metrics.IMetric;
+import pl.edu.agh.samm.common.metrics.IConfiguredMetric;
 
 /**
  * @author Pawel Koperek <pkoperek@gmail.com>
@@ -25,5 +25,5 @@ import pl.edu.agh.samm.api.metrics.IMetric;
  * 
  */
 public interface IMetricFactory {
-	IMetric createMetric(String metricURI, String resourceURI);
+	IConfiguredMetric createMetric(String metricURI, String resourceURI);
 }

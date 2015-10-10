@@ -29,12 +29,12 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pl.edu.agh.samm.api.action.Action;
-import pl.edu.agh.samm.api.action.ActionExecution;
-import pl.edu.agh.samm.api.db.IStorageService;
-import pl.edu.agh.samm.api.metrics.IMetric;
-import pl.edu.agh.samm.api.metrics.MeasurementValue;
-import pl.edu.agh.samm.api.metrics.MetricValue;
+import pl.edu.agh.samm.common.action.Action;
+import pl.edu.agh.samm.common.action.ActionExecution;
+import pl.edu.agh.samm.common.db.IStorageService;
+import pl.edu.agh.samm.common.metrics.IConfiguredMetric;
+import pl.edu.agh.samm.common.metrics.MeasurementValue;
+import pl.edu.agh.samm.common.metrics.MetricValue;
 
 /**
  * @author Pawel Koperek <pkoperek@gmail.com>
@@ -69,11 +69,11 @@ public class StorageServiceImpl implements IStorageService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * pl.edu.agh.samm.db.IStorageService#storeMeasurement(pl.edu.agh.samm.api
-	 * .metrics.IMetric, java.lang.Number)
+	 * pl.edu.agh.samm.db.IStorageService#storeMeasurement(pl.edu.agh.samm.common
+	 * .metrics.IConfiguredMetric, java.lang.Number)
 	 */
 	@Override
-	public void storeMetricValue(IMetric metric, Number value) {
+	public void storeMetricValue(IConfiguredMetric metric, Number value) {
 		MetricValue mv = new MetricValue();
 		mv.setMetricUri(metric.getMetricURI());
 		mv.setResourceUri(metric.getResourceURI());
@@ -174,7 +174,7 @@ public class StorageServiceImpl implements IStorageService {
 	}
 
 	@Override
-	public List<IMetric> getAllKnownMetrics() {
+	public List<IConfiguredMetric> getAllKnownMetrics() {
 		return metricValueDAO.getKnownMetrics();
 	}
 

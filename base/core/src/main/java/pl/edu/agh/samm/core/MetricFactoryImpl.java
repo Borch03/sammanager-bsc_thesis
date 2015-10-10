@@ -20,8 +20,8 @@
  */
 package pl.edu.agh.samm.core;
 
-import pl.edu.agh.samm.api.metrics.IMetric;
-import pl.edu.agh.samm.api.metrics.Metric;
+import pl.edu.agh.samm.common.metrics.IConfiguredMetric;
+import pl.edu.agh.samm.common.metrics.MetricImpl;
 
 /**
  * @author Pawel Koperek <pkoperek@gmail.com>
@@ -38,8 +38,8 @@ public class MetricFactoryImpl implements IMetricFactory {
 	 * java.lang.String)
 	 */
 	@Override
-	public IMetric createMetric(String metricURI, String resourceURI) {
-		return new Metric(metricURI, resourceURI);
+	public IConfiguredMetric createMetric(String metricURI, String resourceURI) {
+		return new MetricImpl(metricURI, resourceURI);
 	}
 
 }

@@ -17,7 +17,7 @@
 
 package pl.edu.agh.samm.metrics;
 
-import pl.edu.agh.samm.api.metrics.IMetric;
+import pl.edu.agh.samm.common.metrics.IConfiguredMetric;
 
 /**
  * @author Pawel Koperek <pkoperek@gmail.com>
@@ -26,6 +26,6 @@ import pl.edu.agh.samm.api.metrics.IMetric;
  */
 public interface IMetricProblemObserver {
 
-	void problemOcurred(IMetric metric, Exception e);
+	void problemOcurred(IConfiguredMetric metric, Exception e);
 
 }

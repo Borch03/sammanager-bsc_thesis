@@ -6,12 +6,12 @@ Bundle-Version: 0.2.0.SNAPSHOT
 Bundle-Name: SAMM - Base - Estimator
 Built-By: Dominik
 Bundle-ManifestVersion: 2
-Bnd-LastModified: 1444413001705
-Import-Package: org.slf4j;version="1.6",org.springframework.beans.fact
- ory.config;version="2.5",pl.edu.agh.samm.api.db,pl.edu.agh.samm.api.e
- stimation,pl.edu.agh.samm.api.metrics,weka.classifiers,weka.classifie
- rs.functions,weka.core,weka.core.converters,weka.filters,weka.filters
- .unsupervised.attribute
+Bnd-LastModified: 1444486355900
+Import-Package: org.slf4j,org.springframework.beans.factory.config;ver
+ sion="2.5",pl.edu.agh.samm.common.db,pl.edu.agh.samm.common.estimatio
+ n,pl.edu.agh.samm.common.metrics,weka.classifiers,weka.classifiers.fu
+ nctions,weka.core,weka.core.converters,weka.filters,weka.filters.unsu
+ pervised.attribute
 Created-By: Apache Maven Bundle Plugin
 Tool: Bnd-0.0.357
 Build-Jdk: 1.8.0_31

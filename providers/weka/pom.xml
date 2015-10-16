@@ -6,7 +6,7 @@
 	<packaging>bundle</packaging>
 	<name>SAMM - Providers - weka ${weka.version}</name>
 	<description> 
-	   ${pom.artifactId} wrapper OSGi bundle. See http://www.cs.waikato.ac.nz/ml/weka/ for more information.
+	   ${project.artifactId} wrapper OSGi bundle. See http://www.cs.waikato.ac.nz/ml/weka/ for more information.
 	</description>
 
 	<parent>
@@ -32,9 +32,9 @@
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
-						<Bundle-SymbolicName>${pom.artifactId}</Bundle-SymbolicName>
-						<Bundle-Name>${pom.name}</Bundle-Name>
-						<Bundle-Description>${pom.description}</Bundle-Description>
+						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+						<Bundle-Name>${project.name}</Bundle-Name>
+						<Bundle-Description>${project.description}</Bundle-Description>
 						<_exportcontents>*</_exportcontents>
 						<Import-Package>!*</Import-Package>
 						<Embed-Dependency>*;scope=compile|runtime;inline=true</Embed-Dependency>

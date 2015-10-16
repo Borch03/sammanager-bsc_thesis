@@ -7,7 +7,7 @@
 
     <name>SAMM - Providers - Esper ${esper.version}</name>
     <description>
-        ${pom.artifactId} wrapper OSGi bundle. See
+        ${project.artifactId} wrapper OSGi bundle. See
     </description>
 
     <parent>
@@ -40,9 +40,9 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Bundle-SymbolicName>${pom.artifactId}</Bundle-SymbolicName>
-                        <Bundle-Name>${pom.name}</Bundle-Name>
-                        <Bundle-Description>${pom.description}</Bundle-Description>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Name>${project.name}</Bundle-Name>
+                        <Bundle-Description>${project.description}</Bundle-Description>
                         <_exportcontents>com.espertech*</_exportcontents>
                         <Import-Package>!*</Import-Package>
                         <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>

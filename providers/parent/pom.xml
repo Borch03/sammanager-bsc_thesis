@@ -18,6 +18,8 @@
         <module>../esper</module>
         <module>../weka</module>
         <module>../awssdk</module>
+        <module>../pellet</module>
+        <module>../jfreechart</module>
     </modules>
 
 </project>

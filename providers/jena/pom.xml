@@ -5,7 +5,7 @@
     <artifactId>jena</artifactId>
     <name>SAMM - Providers - com.hp.hpl.jena ${jena.version}</name>
     <description>
-        ${pom.artifactId} wrapper OSGi bundle. See http://jena.sourceforge.net for more information.
+        ${project.artifactId} wrapper OSGi bundle. See http://jena.sourceforge.net for more information.
     </description>
     <packaging>bundle</packaging>
 
@@ -42,9 +42,9 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Bundle-SymbolicName>${pom.artifactId}</Bundle-SymbolicName>
-                        <Bundle-Name>${pom.name}</Bundle-Name>
-                        <Bundle-Description>${pom.description}</Bundle-Description>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Name>${project.name}</Bundle-Name>
+                        <Bundle-Description>${project.description}</Bundle-Description>
                         <_exportcontents>org.mindswap.pellet*,com.hp.hpl.jena*;-noimport:=true</_exportcontents>
                         <Import-Package>*slf4j*,!*</Import-Package>
                         <Embed-Dependency>*</Embed-Dependency>

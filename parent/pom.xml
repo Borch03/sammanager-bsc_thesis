@@ -23,6 +23,7 @@
         <esper.version>4.1.0</esper.version>
         <pellet.version>2.3.2</pellet.version>
         <weka.version>3.6.7</weka.version>
+        <jfree.version>1.0.13</jfree.version>
     </properties>
 
     <repositories>

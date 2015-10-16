@@ -6,7 +6,7 @@
     <packaging>bundle</packaging>
     <name>SAMM - Providers - pellet ${pellet.version}</name>
     <description>
-        ${pom.artifactId} wrapper OSGi bundle. See http://clarkparsia.com/pellet/ for more information.
+        ${project.artifactId} wrapper OSGi bundle. See http://clarkparsia.com/pellet/ for more information.
     </description>
 
     <parent>
@@ -77,9 +77,9 @@
                 <configuration>
                     <instructions>
                         <_nouses>true</_nouses>
-                        <Bundle-SymbolicName>${pom.artifactId}</Bundle-SymbolicName>
-                        <Bundle-Name>${pom.name}</Bundle-Name>
-                        <Bundle-Description>${pom.description}</Bundle-Description>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Name>${project.name}</Bundle-Name>
+                        <Bundle-Description>${project.description}</Bundle-Description>
                         <_exportcontents>*</_exportcontents>
                         <Export-Package>org.mindswap.pellet*</Export-Package>
                         <Require-Bundle>jena</Require-Bundle>

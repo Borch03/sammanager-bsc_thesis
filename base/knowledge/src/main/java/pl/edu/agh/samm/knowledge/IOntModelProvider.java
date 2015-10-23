@@ -15,13 +15,17 @@
  * along with SAMM.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package pl.edu.agh.samm.api.tadapter;
+package pl.edu.agh.samm.knowledge;
+
+import com.hp.hpl.jena.ontology.OntModel;
 
 /**
+ * Provides Jena OntModel
+ * 
  * @author Pawel Koperek <pkoperek@gmail.com>
  * @author Mateusz Kupisz <mkupisz@gmail.com>
  * 
  */
-public enum CapabilityEventType {
-	NEW_CAPABILITY_VALUE;
+public interface IOntModelProvider {
+	OntModel getOntModel();
 }

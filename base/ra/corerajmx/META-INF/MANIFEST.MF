@@ -6,7 +6,7 @@ Bundle-Version: 0.2.0.SNAPSHOT
 Bundle-Name: SAMM - Base - Remote Access - Core JMX
 Built-By: Dominik
 Bundle-ManifestVersion: 2
-Bnd-LastModified: 1444486356303
+Bnd-LastModified: 1445628758440
 Import-Package: com.hp.hpl.jena.ontology,javax.management,org.slf4j
 Created-By: Apache Maven Bundle Plugin
 Tool: Bnd-0.0.357

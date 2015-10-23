@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-Description: Autonomic semantic-based management for distribute
+ d        applications
+Bundle-SymbolicName: pl.edu.agh.samm.base.estimator
+Bundle-Version: 0.2.0.SNAPSHOT
+Bundle-Name: SAMM - Base - Estimator
+Built-By: Dominik
+Bundle-ManifestVersion: 2
+Bnd-LastModified: 1444486355900
+Import-Package: org.slf4j,org.springframework.beans.factory.config;ver
+ sion="2.5",pl.edu.agh.samm.common.db,pl.edu.agh.samm.common.estimatio
+ n,pl.edu.agh.samm.common.metrics,weka.classifiers,weka.classifiers.fu
+ nctions,weka.core,weka.core.converters,weka.filters,weka.filters.unsu
+ pervised.attribute
+Created-By: Apache Maven Bundle Plugin
+Tool: Bnd-0.0.357
+Build-Jdk: 1.8.0_31
+

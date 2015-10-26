@@ -6,7 +6,7 @@ Bundle-Version: 0.2.0.SNAPSHOT
 Bundle-Name: SAMM - Base - Transport Adapters - Eucalyptus
 Built-By: Dominik
 Bundle-ManifestVersion: 2
-Bnd-LastModified: 1445799316275
+Bnd-LastModified: 1445860390671
 Import-Package: com.amazonaws.auth,com.amazonaws.services.ec2,com.amaz
  onaws.services.ec2.model,com.hp.hpl.jena.ontology,org.slf4j,org.sprin
  gframework.beans.factory.config;version="2.5"

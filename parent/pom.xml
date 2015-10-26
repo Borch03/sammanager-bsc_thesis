@@ -44,11 +44,55 @@
         </repository>
     </repositories>
 
-    <modules>
-        <module>../base/parent</module>
-        <module>../test/parent</module>
-        <module>../providers/parent</module>
-    </modules>
+    <profiles>
+        <profile>
+            <id>providers</id>
+            <modules>
+                <module>../providers/parent</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>targetplatform</id>
+            <modules>
+                <module>../base/parent</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>development</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>../base/parent</module>
+                <module>../test/parent</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>gui</id>
+            <modules>
+                <module>../eclipse/parent</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>release</id>
+            <modules>
+                <module>../base/parent</module>
+            </modules>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/main/assembly/bin.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                        <inherited>false</inherited>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <developers>
         <developer>

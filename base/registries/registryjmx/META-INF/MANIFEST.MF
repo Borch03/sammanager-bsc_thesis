@@ -6,7 +6,7 @@ Bundle-Version: 0.2.0.SNAPSHOT
 Bundle-Name: SAMM - Base - Transport Adapters - JMX
 Built-By: Dominik
 Bundle-ManifestVersion: 2
-Bnd-LastModified: 1445799316019
+Bnd-LastModified: 1445860390442
 Import-Package: javax.management,javax.management.openmbean,javax.mana
  gement.remote,org.slf4j,org.springframework.beans.factory.config;vers
  ion="2.5",pl.edu.agh.samm.common.action,pl.edu.agh.samm.common.core,p

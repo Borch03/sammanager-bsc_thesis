@@ -4,7 +4,7 @@ Bundle-Description: Autonomic semantic-based management for distribute
 Bundle-SymbolicName: pl.edu.agh.samm.base.commons
 Built-By: Dominik
 Bundle-ManifestVersion: 2
-Bnd-LastModified: 1445628757000
+Bnd-LastModified: 1445799315312
 Import-Package: com.hp.hpl.jena.ontology,org.slf4j,pl.edu.agh.samm.com
  mon.action,pl.edu.agh.samm.common.core,pl.edu.agh.samm.common.db,pl.e
  du.agh.samm.common.decision,pl.edu.agh.samm.common.estimation,pl.edu.

@@ -6,7 +6,7 @@ Bundle-Version: 0.2.0.SNAPSHOT
 Bundle-Name: SAMM - Base - Estimator
 Built-By: Dominik
 Bundle-ManifestVersion: 2
-Bnd-LastModified: 1445628758077
+Bnd-LastModified: 1445799316772
 Import-Package: org.slf4j,org.springframework.beans.factory.config;ver
  sion="2.5",pl.edu.agh.samm.common.db,pl.edu.agh.samm.common.estimatio
  n,pl.edu.agh.samm.common.metrics,weka.classifiers,weka.classifiers.fu

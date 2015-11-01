@@ -6,7 +6,7 @@ Bundle-Version: 0.2.0.SNAPSHOT
 Bundle-Name: SAMM - Base - Core
 Built-By: Dominik
 Bundle-ManifestVersion: 2
-Bnd-LastModified: 1445860390197
+Bnd-LastModified: 1446314691514
 Import-Package: org.apache.commons.math.stat.correlation;version="2.1"
  ,org.slf4j,pl.edu.agh.samm.common.action,pl.edu.agh.samm.common.core,
  pl.edu.agh.samm.common.db,pl.edu.agh.samm.common.decision,pl.edu.agh.

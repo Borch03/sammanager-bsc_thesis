@@ -6,7 +6,7 @@ Bundle-Version: 0.2.0.SNAPSHOT
 Bundle-Name: SAMM - Base - Remote Access - Knowledge JMX
 Built-By: Dominik
 Bundle-ManifestVersion: 2
-Bnd-LastModified: 1445860391607
+Bnd-LastModified: 1446314692900
 Import-Package: com.hp.hpl.jena.ontology,javax.management,org.slf4j,pl
  .edu.agh.samm.common.core,pl.edu.agh.samm.common.knowledge
 Created-By: Apache Maven Bundle Plugin

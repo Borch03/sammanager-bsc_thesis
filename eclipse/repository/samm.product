@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="SAMM - Semantic-based Autonomous Monitor and Manager" uid="pl.edu.agh.samm.eclipse.product" id="pl.edu.agh.samm.eclipse.product" application="pl.edu.agh.samm.eclipse.SAMMApplication" version="0.0.1.qualifier" useFeatures="false" includeLaunchers="true">
+<product name="SAMM - Semantic-based Autonomous Monitor and Manager" uid="pl.edu.agh.samm.eclipse.product" id="pl.edu.agh.samm.eclipse.product" application="pl.edu.agh.samm.eclipse.SAMMApplication" version="0.2.0.qualifier" useFeatures="false" includeLaunchers="true">
 
    <configIni use="default">
    </configIni>
@@ -47,7 +47,7 @@
       <plugin id="org.eclipse.core.resources"/>
       <plugin id="org.eclipse.core.runtime"/>
       <plugin id="org.eclipse.core.runtime.compatibility.auth"/>
-      <plugin id="org.eclipse.core.runtime.compatibility.registry" fragment="true"/>
+      <plugin id="org.eclipse.core.runtime.compatibility.registry" fragment="false"/>
       <plugin id="org.eclipse.core.variables"/>
       <plugin id="org.eclipse.draw2d"/>
       <plugin id="org.eclipse.ecf"/>

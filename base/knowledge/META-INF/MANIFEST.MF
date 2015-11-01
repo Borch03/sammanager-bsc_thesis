@@ -4,7 +4,7 @@ Bundle-Description: Autonomic semantic-based management for distribute
 Bundle-SymbolicName: pl.edu.agh.samm.base.knowledge
 Built-By: Dominik
 Bundle-ManifestVersion: 2
-Bnd-LastModified: 1445860389970
+Bnd-LastModified: 1446314691276
 Import-Package: com.hp.hpl.jena.graph,com.hp.hpl.jena.ontology,com.hp.
  hpl.jena.rdf.model,com.hp.hpl.jena.util.iterator,org.mindswap.pellet.
  jena,org.slf4j,pl.edu.agh.samm.common.core,pl.edu.agh.samm.common.imp

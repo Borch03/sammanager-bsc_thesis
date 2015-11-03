@@ -50,7 +50,7 @@
 				<configuration>
 					<products>
 						<product>
-							<id>pl.edu.agh.samm.eclipse.product</id>
+							<id>pl.edu.agh.samm.eclipse</id>
 						</product>
 					</products>
 				</configuration>

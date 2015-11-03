@@ -5,6 +5,13 @@
 	<artifactId>plugin</artifactId>
 	<packaging>eclipse-plugin</packaging>
 	<name>SAMM - RCP Plugin (Product Application)</name>
+	<dependencies>
+		<dependency>
+			<groupId>org.eclipse</groupId>
+			<artifactId>org.eclipse.jface</artifactId>
+			<version>3.3.2.M20080207-0800</version>
+		</dependency>
+	</dependencies>
 
 	<parent>
 		<version>0.2.0-SNAPSHOT</version>

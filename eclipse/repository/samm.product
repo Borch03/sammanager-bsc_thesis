@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="SAMM - Semantic-based Autonomous Monitor and Manager" uid="pl.edu.agh.samm.eclipse.product" id="pl.edu.agh.samm.eclipse.product" application="pl.edu.agh.samm.eclipse.SAMMApplication" version="0.2.0.qualifier" useFeatures="false" includeLaunchers="true">
+<product name="SAMM - Semantic-based Autonomous Monitor and Manager" uid="pl.edu.agh.samm.eclipse" id="pl.edu.agh.samm.eclipse" application="pl.edu.agh.samm.eclipse.SAMMApplication" version="0.0.0" useFeatures="false" includeLaunchers="true">
 
    <configIni use="default">
    </configIni>

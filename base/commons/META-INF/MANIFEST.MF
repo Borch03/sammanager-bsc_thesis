@@ -1,31 +1,31 @@
 Manifest-Version: 1.0
+Export-Package: pl.edu.agh.samm.common.metrics;uses:="pl.edu.agh.samm.
+ common.impl",pl.edu.agh.samm.common.decision;uses:="pl.edu.agh.samm.c
+ ommon.knowledge",pl.edu.agh.samm.common.knowledge;uses:="com.hp.hpl.j
+ ena.ontology,pl.edu.agh.samm.common.core",pl.edu.agh.samm.common.esti
+ mation,pl.edu.agh.samm.common.action,pl.edu.agh.samm.common.core;uses
+ :="pl.edu.agh.samm.common.metrics,pl.edu.agh.samm.common.action,pl.ed
+ u.agh.samm.common.decision,pl.edu.agh.samm.common.knowledge,pl.edu.ag
+ h.samm.common.tadapter",pl.edu.agh.samm.common.tadapter;uses:="org.sl
+ f4j,pl.edu.agh.samm.common.action,pl.edu.agh.samm.common.core",pl.edu
+ .agh.samm.common.db;uses:="pl.edu.agh.samm.common.metrics,pl.edu.agh.
+ samm.common.action",pl.edu.agh.samm.common.impl;uses:="pl.edu.agh.sam
+ m.common.metrics"
+Built-By: Dominik
+Tool: Bnd-0.0.357
+Bundle-Name: SAMM - Base - Commons
+Created-By: Apache Maven Bundle Plugin
+Build-Jdk: 1.7.0_79
+Bundle-Version: 0.2.0.SNAPSHOT
+Bnd-LastModified: 1446570679280
+Bundle-ManifestVersion: 2
 Bundle-Description: Autonomic semantic-based management for distribute
  d        applications
-Bundle-SymbolicName: pl.edu.agh.samm.base.commons
-Built-By: Dominik
-Bundle-ManifestVersion: 2
-Bnd-LastModified: 1446464120215
 Import-Package: com.hp.hpl.jena.ontology,org.slf4j,pl.edu.agh.samm.com
  mon.action,pl.edu.agh.samm.common.core,pl.edu.agh.samm.common.db,pl.e
  du.agh.samm.common.decision,pl.edu.agh.samm.common.estimation,pl.edu.
  agh.samm.common.impl,pl.edu.agh.samm.common.knowledge,pl.edu.agh.samm
  .common.metrics,pl.edu.agh.samm.common.tadapter
-Tool: Bnd-0.0.357
+Bundle-SymbolicName: pl.edu.agh.samm.base.commons
 Originally-Created-By: Apache Maven Bundle Plugin
-Export-Package: pl.edu.agh.samm.common.action,pl.edu.agh.samm.common.d
- b;uses:="pl.edu.agh.samm.common.action,pl.edu.agh.samm.common.metrics
- ",pl.edu.agh.samm.common.decision;uses:="pl.edu.agh.samm.common.knowl
- edge",pl.edu.agh.samm.common.metrics;uses:="pl.edu.agh.samm.common.im
- pl",pl.edu.agh.samm.common.knowledge;uses:="pl.edu.agh.samm.common.co
- re,com.hp.hpl.jena.ontology",pl.edu.agh.samm.common.core;uses:="pl.ed
- u.agh.samm.common.metrics,pl.edu.agh.samm.common.action,pl.edu.agh.sa
- mm.common.decision,pl.edu.agh.samm.common.knowledge,pl.edu.agh.samm.c
- ommon.tadapter",pl.edu.agh.samm.common.tadapter;uses:="org.slf4j,pl.e
- du.agh.samm.common.action,pl.edu.agh.samm.common.core",pl.edu.agh.sam
- m.common.impl;uses:="pl.edu.agh.samm.common.metrics",pl.edu.agh.samm.
- common.estimation
-Bundle-Version: 0.2.0.SNAPSHOT
-Bundle-Name: SAMM - Base - Commons
-Created-By: Apache Maven Bundle Plugin
-Build-Jdk: 1.8.0_31
 

@@ -3,11 +3,15 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>pl.edu.agh.samm.providers</groupId>
     <artifactId>jena</artifactId>
-    <name>SAMM - Providers - com.hp.hpl.jena ${jena.version}</name>
+    <name>SAMM - Providers - org.apache.jena ${jena.version}</name>
     <description>
         ${project.artifactId} wrapper OSGi bundle. See http://jena.sourceforge.net for more information.
     </description>
     <packaging>bundle</packaging>
+
+    <properties>
+        <jena.version>2.6.3</jena.version>
+    </properties>
 
     <parent>
         <artifactId>providers</artifactId>
@@ -18,19 +22,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.github.ansell.pellet</groupId>
-            <artifactId>pellet-jena</artifactId>
-            <version>${pellet.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.ansell.pellet</groupId>
-            <artifactId>pellet-core</artifactId>
-            <version>${pellet.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>xml-apis</groupId>
-            <artifactId>xml-apis</artifactId>
-            <version>1.4.01</version>
+            <groupId>com.hp.hpl.jena</groupId>
+            <artifactId>jena</artifactId>
+            <version>${jena.version}</version>
         </dependency>
     </dependencies>
 
@@ -42,13 +36,14 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Bundle-Name>${project.name}</Bundle-Name>
-                        <Bundle-Description>${project.description}</Bundle-Description>
-                        <_exportcontents>org.mindswap.pellet*,com.hp.hpl.jena*;-noimport:=true</_exportcontents>
-                        <Import-Package>*slf4j*,!*</Import-Package>
-                        <Embed-Dependency>*</Embed-Dependency>
+                        <Bundle-SymbolicName>${pom.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Name>${pom.name}</Bundle-Name>
+                        <Bundle-Description>${pom.description}</Bundle-Description>
+                        <_exportcontents>com.hp.hpl.jena*;-noimport:=true</_exportcontents>
+                        <Import-Package>!com.sun.*,!javax.mail.*,!javax.jms.*,!org.apache.xml.resolver.*,!sun.*,*</Import-Package>
+                        <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
                         <Embed-Transitive>true</Embed-Transitive>
+                        <Private-Package>!*</Private-Package>
                     </instructions>
                 </configuration>
             </plugin>

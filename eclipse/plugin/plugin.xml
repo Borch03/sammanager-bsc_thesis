@@ -20,7 +20,6 @@
 
 <?eclipse version="3.4"?>
 <plugin>
-   <extension-point id="splashExtension" name="Splash Extensions" schema="schema/splashExtension.exsd"/>
 
    <extension
          id="pl.edu.agh.samm.eclipse.SAMMApplication"
@@ -287,34 +286,6 @@
             class="pl.edu.agh.samm.eclipse.splashHandlers.ExtensibleSplashHandler"
             id="pl.edu.agh.samm.eclipse.splashHandlers.extensible">
       </splashHandler>
-   </extension>
-   <extension
-         point="pl.edu.agh.samm.eclipse.splashExtension">
-      <splashExtension
-            icon="icons/af.png"
-            id="af"
-            tooltip="Application Framework">
-      </splashExtension>
-      <splashExtension
-            icon="icons/embedded.png"
-            id="embedded"
-            tooltip="Embedded">
-      </splashExtension>
-      <splashExtension
-            icon="icons/enterprise.png"
-            id="enterprise"
-            tooltip="Enterprise">
-      </splashExtension>
-      <splashExtension
-            icon="icons/languages.png"
-            id="languages"
-            tooltip="Languages">
-      </splashExtension>
-      <splashExtension
-            icon="icons/rcp.png"
-            id="rcp"
-            tooltip="RCP">
-      </splashExtension>
    </extension>
    <extension
          point="org.eclipse.ui.editors">

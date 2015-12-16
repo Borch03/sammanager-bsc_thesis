@@ -9,7 +9,7 @@
 		<dependency>
 			<groupId>org.eclipse</groupId>
 			<artifactId>org.eclipse.jface</artifactId>
-			<version>3.3.2.M20080207-0800</version>
+			<version>3.6.2.M20110210-1200</version>
 		</dependency>
 	</dependencies>
 
@@ -23,7 +23,7 @@
 	<build>
 		<resources>
 			<resource>
-				<directory>.</directory>
+				<directory>src</directory>
 				<includes>
 					<include>client.policy</include>
 				</includes>

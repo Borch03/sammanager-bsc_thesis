@@ -18,5 +18,5 @@
 
 cd osgi
 CODEBASE="file://$(pwd)/core-0.2.0-SNAPSHOT.jar file://$(pwd)/commons-0.2.0-SNAPSHOT.jar"
-java -Dcom.sun.management.jmxremote.port=9999  -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dosgi.compatibility.bootdelegation=true -Djava.security.manager=java.rmi.RMISecurityManager -Djava.security.policy=../server.policy -Djava.rmi.server.codebase="$CODEBASE" -jar org.eclipse.osgi-3.6.0.v20100517.jar $@ 
-cd .. 
+java -Dcom.sun.management.jmxremote.port=9999  -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dosgi.compatibility.bootdelegation=true -Djava.security.manager=java.rmi.RMISecurityManager -Djava.security.policy=../server.policy -Djava.rmi.server.codebase="$CODEBASE" -jar org.eclipse.osgi-3.6.2.R36x_v20110210.jar $@
+cd ..

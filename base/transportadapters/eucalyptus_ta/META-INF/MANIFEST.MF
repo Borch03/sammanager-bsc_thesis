@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Built-By: Dominik
+Build-Jdk: 1.7.0_79
+Bundle-Version: 0.2.0.SNAPSHOT
+Tool: Bnd-0.0.357
+Bundle-Name: SAMM - Base - Transport Adapters - Eucalyptus
+Bnd-LastModified: 1450132769875
+Created-By: Apache Maven Bundle Plugin
+Bundle-ManifestVersion: 2
+Bundle-Description: Autonomic semantic-based management for distribute
+ d        applications
+Bundle-SymbolicName: pl.edu.agh.samm.base.transportadapters.eucalyptus
+ _ta
+Import-Package: com.amazonaws,com.amazonaws.auth,com.amazonaws.service
+ s.ec2,com.amazonaws.services.ec2.model,com.amazonaws.services.ec2.mod
+ el.transform,com.amazonaws.transform,com.hp.hpl.jena.ontology,org.slf
+ 4j;version="1.6",org.springframework.beans.factory.config;version="2.
+ 5",pl.edu.agh.samm.api.action,pl.edu.agh.samm.api.core,pl.edu.agh.sam
+ m.api.tadapter
+

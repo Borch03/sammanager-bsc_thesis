@@ -27,55 +27,75 @@
 	General Public License along with SAMM. If not, see <http://www.gnu.org/licenses/>. -->
 
 <assembly>
-    <id>bin</id>
-    <formats>
-        <format>dir</format>
-        <!-- <format>zip</format> <format>tar.bz2</format> -->
+	<id>bin</id>
+	<formats>
+		<format>dir</format>
+		<format>zip</format> <!--<format>tar.bz2</format> -->
+        <format>tar.gz</format>
     </formats>
-    <includeBaseDirectory>false</includeBaseDirectory>
-    <files>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<files>
         <file>
-            <source>src/main/scripts/run.sh</source>
-            <outputDirectory>.</outputDirectory>
-            <filtered>true</filtered>
-            <fileMode>755</fileMode>
-        </file>
-        <file>
-            <source>../base/core/server.policy</source>
+            <source>../base/fileconfig/src/main/resources/config_tutorial.xml</source>
             <outputDirectory>.</outputDirectory>
         </file>
-        <file>
-            <source>../base/dblistener/ddl/schema.sql</source>
-            <outputDirectory>.</outputDirectory>
-            <destName>sammdb.script</destName>
-        </file>
-    </files>
-    <fileSets>
-        <fileSet>
-            <directory>src/main/configuration</directory>
-            <outputDirectory>osgi/configuration</outputDirectory>
-            <filtered>true</filtered>
-        </fileSet>
-    </fileSets>
-    <moduleSets>
-        <moduleSet>
-            <includes>
-                <include>pl.edu.agh.samm.base*:*</include>
-            </includes>
-            <binaries>
-                <dependencySets>
-                    <dependencySet>
-                        <useTransitiveDependencies>false</useTransitiveDependencies>
-                        <!--<includes>-->
-                        <!--<include>*:*</include>-->
-                        <!--</includes>-->
-                        <scope>runtime</scope>
-                    </dependencySet>
-                </dependencySets>
-                <unpack>false</unpack>
-                <outputDirectory>osgi</outputDirectory>
-            </binaries>
+		<file>
+			<source>src/main/scripts/stop.sh</source>
+			<outputDirectory>.</outputDirectory>
+			<filtered>true</filtered>
+			<fileMode>755</fileMode>
+		</file>
+		<file>
+			<source>src/main/scripts/start.sh</source>
+			<outputDirectory>.</outputDirectory>
+			<filtered>true</filtered>
+			<fileMode>755</fileMode>
+		</file>
+		<file>
+			<source>src/main/scripts/start_debug.sh</source>
+			<outputDirectory>.</outputDirectory>
+			<filtered>true</filtered>
+			<fileMode>755</fileMode>
+		</file>
+		<file>
+			<source>../base/core/server.policy</source>
+			<outputDirectory>.</outputDirectory>
+		</file>
+		<file>
+			<source>../base/dblistener/db/sammdb.script</source>
+			<outputDirectory>.</outputDirectory>
+		</file>
+		<file>
+			<source>../base/dblistener/ddl/schema.sql</source>
+			<outputDirectory>.</outputDirectory>
+		</file>
+	</files>
+	<fileSets>
+		<fileSet>
+			<directory>src/main/configuration</directory>
+			<outputDirectory>osgi/configuration</outputDirectory>
+			<filtered>true</filtered>
+		</fileSet>
+	</fileSets>
+	<moduleSets>
+		<moduleSet>
+			<includes>
+				<include>pl.edu.agh.samm.base*:*</include>
+			</includes>
+			<binaries>
+				<dependencySets>
+					<dependencySet>
+						<useTransitiveDependencies>false</useTransitiveDependencies>
+<!--						<includes>-->
+<!--							<include>*:*</include>-->
+<!--						</includes>-->
+						<scope>runtime</scope>
+					</dependencySet>
+				</dependencySets>
+				<unpack>false</unpack>
+				<outputDirectory>osgi</outputDirectory>
+			</binaries>
 
-        </moduleSet>
-    </moduleSets>
+		</moduleSet>
+	</moduleSets>
 </assembly>

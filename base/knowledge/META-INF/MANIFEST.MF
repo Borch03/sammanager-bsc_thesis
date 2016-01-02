@@ -7,7 +7,7 @@ Bundle-Name: SAMM - Base - Knowledge
 Created-By: Apache Maven Bundle Plugin
 Build-Jdk: 1.7.0_79
 Bundle-Version: 0.2.0.SNAPSHOT
-Bnd-LastModified: 1450132769003
+Bnd-LastModified: 1451735402724
 Bundle-ManifestVersion: 2
 Bundle-Description: Autonomic semantic-based management for distribute
  d        applications

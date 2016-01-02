@@ -60,13 +60,13 @@
     <metricSet>
         <metric resourceURI="/RmspApp"
                 metricURI="http://www.icsr.agh.edu.pl/samm_1.owl#DecisionMetric"
-                metricPollTimeInterval="5000"/>
+                metricPollTimeInterval="1000"/>
         <metric resourceURI="/TutorialApp"
-                metricURI="http://www.icsr.agh.edu.pl/samm_1.owl#ExpressionsQueueLengthMetric"
-                metricPollTimeInterval="5000"/>
+                metricURI="http://www.icsr.agh.edu.pl/samm_1.owl#ProcessedExpressionsCountMetric"
+                metricPollTimeInterval="1000"/>
         <metric resourceURI="/TutorialApp"
                 metricURI="http://www.icsr.agh.edu.pl/samm_1.owl#SlavesCountMetric"
-                metricPollTimeInterval="5000"/>
+                metricPollTimeInterval="1000"/>
     </metricSet>
 </configuration>
 

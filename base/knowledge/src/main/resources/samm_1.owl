@@ -1768,7 +1768,13 @@
     <owl:NamedIndividual rdf:about="&samm_1;ProcessedExpressionsCountCapability">
         <rdf:type rdf:resource="&samm_1;CCustomApplicationCapability"/>
     </owl:NamedIndividual>
-    
+
+    <!-- http://www.icsr.agh.edu.pl/samm_1.owl#ProcessedExpressionsCountMetric -->
+
+        <owl:NamedIndividual rdf:about="&samm_1;ProcessedExpressionsCountMetric">
+            <rdf:type rdf:resource="&samm_1;CCustomApplicationMetric"/>
+            <usesTypeCapability rdf:resource="&samm_1;ProcessedExpressionsCountCapability"/>
+        </owl:NamedIndividual>
 
 
     <!-- http://www.icsr.agh.edu.pl/samm_1.owl#ProcessingTimeTypeCapability -->

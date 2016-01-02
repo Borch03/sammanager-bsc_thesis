@@ -158,7 +158,7 @@
                     <aggregate>true</aggregate>
                     <!-- Force encoding -->
                     <encoding>UTF-8</encoding>
-                    <failIfMissing>true</failIfMissing>
+                    <failIfMissing>false</failIfMissing>
                     <strictCheck>true</strictCheck>
                 </configuration>
                 <executions>
